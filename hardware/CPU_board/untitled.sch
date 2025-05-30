@@ -18066,6 +18066,7 @@ at 25/07/2012 09:32:54</description>
 <instance part="U1" gate="A" x="289.56" y="25.4"/>
 <instance part="GND8" gate="1" x="269.24" y="-15.24"/>
 <instance part="IC3" gate="G$1" x="388.62" y="27.94"/>
+<instance part="IC3" gate="P" x="-5.08" y="190.5"/>
 </instances>
 <busses>
 </busses>
@@ -18103,6 +18104,10 @@ at 25/07/2012 09:32:54</description>
 <wire x1="-20.32" y1="180.34" x2="-15.24" y2="180.34" width="0.1524" layer="91"/>
 <wire x1="-15.24" y1="180.34" x2="-15.24" y2="182.88" width="0.1524" layer="91"/>
 <junction x="-20.32" y="180.34"/>
+<pinref part="IC3" gate="P" pin="GND"/>
+<wire x1="-15.24" y1="180.34" x2="-5.08" y2="180.34" width="0.1524" layer="91"/>
+<wire x1="-5.08" y1="180.34" x2="-5.08" y2="182.88" width="0.1524" layer="91"/>
+<junction x="-15.24" y="180.34"/>
 </segment>
 <segment>
 <pinref part="C1" gate="G$1" pin="2"/>
@@ -18236,6 +18241,10 @@ at 25/07/2012 09:32:54</description>
 <wire x1="-15.24" y1="200.66" x2="-15.24" y2="198.12" width="0.1524" layer="91"/>
 <wire x1="-20.32" y1="200.66" x2="-20.32" y2="203.2" width="0.1524" layer="91"/>
 <junction x="-20.32" y="200.66"/>
+<pinref part="IC3" gate="P" pin="VCC"/>
+<wire x1="-15.24" y1="200.66" x2="-5.08" y2="200.66" width="0.1524" layer="91"/>
+<wire x1="-5.08" y1="200.66" x2="-5.08" y2="198.12" width="0.1524" layer="91"/>
+<junction x="-15.24" y="200.66"/>
 </segment>
 <segment>
 <pinref part="C1" gate="G$1" pin="1"/>
