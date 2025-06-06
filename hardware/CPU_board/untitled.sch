@@ -19136,6 +19136,10 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="449.58" y="147.32" size="1.4224" layer="95" rot="R180" xref="yes"/>
 <pinref part="JP3" gate="A" pin="20"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="PHI"/>
+<wire x1="35.56" y1="83.82" x2="22.86" y2="83.82" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="!RST" class="0">
 <segment>
