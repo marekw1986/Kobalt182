@@ -18532,6 +18532,11 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="452.12" y="162.56" size="1.4224" layer="95" rot="R180" xref="yes"/>
 <pinref part="JP1" gate="G$1" pin="3"/>
 </segment>
+<segment>
+<pinref part="IC3" gate="G$1" pin="!WE"/>
+<wire x1="378.46" y1="0" x2="373.38" y2="0" width="0.1524" layer="91"/>
+<label x="373.38" y="0" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
 </net>
 <net name="TXD1" class="0">
 <segment>
@@ -19090,11 +19095,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </segment>
 </net>
 <net name="!WR" class="0">
-<segment>
-<pinref part="IC3" gate="G$1" pin="!WE"/>
-<wire x1="378.46" y1="0" x2="373.38" y2="0" width="0.1524" layer="91"/>
-<label x="373.38" y="0" size="1.4224" layer="95" rot="R180" xref="yes"/>
-</segment>
 <segment>
 <pinref part="U1" gate="A" pin="WE"/>
 <wire x1="271.78" y1="45.72" x2="266.7" y2="45.72" width="0.1524" layer="91"/>
