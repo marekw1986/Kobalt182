@@ -24334,6 +24334,11 @@ Based on the following sources:
 <wire x1="294.64" y1="162.56" x2="289.56" y2="162.56" width="0.1524" layer="91"/>
 <label x="289.56" y="162.56" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
+<segment>
+<pinref part="IC4" gate="A" pin="Y6"/>
+<wire x1="-190.5" y1="7.62" x2="-185.42" y2="7.62" width="0.1524" layer="91"/>
+<label x="-185.42" y="7.62" size="1.4224" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="N$31" class="0">
 <segment>
@@ -24414,6 +24419,11 @@ Based on the following sources:
 <wire x1="-190.5" y1="15.24" x2="-185.42" y2="15.24" width="0.1524" layer="91"/>
 <label x="-185.42" y="15.24" size="1.4224" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="JP4" gate="A" pin="4"/>
+<wire x1="467.36" y1="93.98" x2="474.98" y2="93.98" width="0.1524" layer="91"/>
+<label x="474.98" y="93.98" size="1.4224" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="CS4" class="0">
 <segment>
@@ -24422,9 +24432,9 @@ Based on the following sources:
 <label x="-185.42" y="12.7" size="1.4224" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="JP4" gate="A" pin="4"/>
-<wire x1="467.36" y1="93.98" x2="474.98" y2="93.98" width="0.1524" layer="91"/>
-<label x="474.98" y="93.98" size="1.4224" layer="95" xref="yes"/>
+<pinref part="JP4" gate="A" pin="1"/>
+<wire x1="459.74" y1="96.52" x2="449.58" y2="96.52" width="0.1524" layer="91"/>
+<label x="449.58" y="96.52" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="CS5" class="0">
@@ -24432,17 +24442,6 @@ Based on the following sources:
 <pinref part="IC4" gate="A" pin="Y5"/>
 <wire x1="-190.5" y1="10.16" x2="-185.42" y2="10.16" width="0.1524" layer="91"/>
 <label x="-185.42" y="10.16" size="1.4224" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="JP4" gate="A" pin="1"/>
-<wire x1="459.74" y1="96.52" x2="449.58" y2="96.52" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="CS6" class="0">
-<segment>
-<pinref part="IC4" gate="A" pin="Y6"/>
-<wire x1="-190.5" y1="7.62" x2="-185.42" y2="7.62" width="0.1524" layer="91"/>
-<label x="-185.42" y="7.62" size="1.4224" layer="95" xref="yes"/>
 </segment>
 <segment>
 <pinref part="JP4" gate="A" pin="2"/>
