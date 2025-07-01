@@ -21081,6 +21081,7 @@ Based on the following sources:
 <part name="JP9" library="pinhead-2" deviceset="PINHD-2X13" device="_2.54-SMD"/>
 <part name="IC6" library="74xx-eu" deviceset="74*245" device="SSOP" value="74245SSOP"/>
 <part name="GND22" library="supply1" deviceset="GND" device=""/>
+<part name="IC7" library="74xx-eu" deviceset="74*245" device="SSOP" value="74245SSOP"/>
 </parts>
 <sheets>
 <sheet>
@@ -21188,8 +21189,9 @@ Based on the following sources:
 <instance part="JP8" gate="G$1" x="-248.92" y="284.48" rot="R90"/>
 <instance part="JP9" gate="A" x="454.66" y="274.32"/>
 <instance part="IC6" gate="A" x="378.46" y="256.54"/>
-<instance part="GND22" gate="1" x="363.22" y="238.76"/>
+<instance part="GND22" gate="1" x="363.22" y="198.12"/>
 <instance part="IC6" gate="P" x="15.24" y="190.5"/>
+<instance part="IC7" gate="A" x="378.46" y="215.9"/>
 </instances>
 <busses>
 </busses>
@@ -21512,9 +21514,17 @@ Based on the following sources:
 <wire x1="365.76" y1="246.38" x2="363.22" y2="246.38" width="0.1524" layer="91"/>
 <wire x1="363.22" y1="246.38" x2="363.22" y2="243.84" width="0.1524" layer="91"/>
 <pinref part="IC6" gate="A" pin="G"/>
-<wire x1="363.22" y1="243.84" x2="363.22" y2="241.3" width="0.1524" layer="91"/>
+<wire x1="363.22" y1="243.84" x2="363.22" y2="205.74" width="0.1524" layer="91"/>
+<wire x1="363.22" y1="205.74" x2="363.22" y2="203.2" width="0.1524" layer="91"/>
+<wire x1="363.22" y1="203.2" x2="363.22" y2="200.66" width="0.1524" layer="91"/>
 <wire x1="365.76" y1="243.84" x2="363.22" y2="243.84" width="0.1524" layer="91"/>
 <junction x="363.22" y="243.84"/>
+<pinref part="IC7" gate="A" pin="DIR"/>
+<wire x1="365.76" y1="205.74" x2="363.22" y2="205.74" width="0.1524" layer="91"/>
+<junction x="363.22" y="205.74"/>
+<pinref part="IC7" gate="A" pin="G"/>
+<wire x1="365.76" y1="203.2" x2="363.22" y2="203.2" width="0.1524" layer="91"/>
+<junction x="363.22" y="203.2"/>
 </segment>
 </net>
 <net name="5V" class="0">
@@ -23206,11 +23216,16 @@ Based on the following sources:
 <label x="469.9" y="289.56" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="/STB" class="0">
+<net name="/PSTB" class="0">
 <segment>
 <pinref part="JP9" gate="A" pin="1"/>
 <wire x1="452.12" y1="289.56" x2="441.96" y2="289.56" width="0.1524" layer="91"/>
 <label x="441.96" y="289.56" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="IC7" gate="A" pin="A8"/>
+<wire x1="365.76" y1="210.82" x2="358.14" y2="210.82" width="0.1524" layer="91"/>
+<label x="358.14" y="210.82" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="PD0" class="0">
@@ -23431,6 +23446,17 @@ Based on the following sources:
 <pinref part="IC6" gate="A" pin="B8"/>
 <wire x1="391.16" y1="251.46" x2="396.24" y2="251.46" width="0.1524" layer="91"/>
 <label x="396.24" y="251.46" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="/PSTB_IN" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="RXA1/PB6"/>
+<wire x1="137.16" y1="86.36" x2="152.4" y2="86.36" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="IC7" gate="A" pin="B8"/>
+<wire x1="391.16" y1="210.82" x2="396.24" y2="210.82" width="0.1524" layer="91"/>
+<label x="396.24" y="210.82" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 </nets>
