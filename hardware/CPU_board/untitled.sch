@@ -21575,16 +21575,12 @@ Based on the following sources:
 <junction x="365.76" y="215.9"/>
 <pinref part="IC8" gate="A" pin="A2"/>
 <wire x1="365.76" y1="238.76" x2="365.76" y2="236.22" width="0.1524" layer="91"/>
-<wire x1="365.76" y1="236.22" x2="365.76" y2="233.68" width="0.1524" layer="91"/>
-<wire x1="365.76" y1="233.68" x2="365.76" y2="215.9" width="0.1524" layer="91"/>
+<wire x1="365.76" y1="236.22" x2="365.76" y2="215.9" width="0.1524" layer="91"/>
 <wire x1="368.3" y1="238.76" x2="365.76" y2="238.76" width="0.1524" layer="91"/>
 <junction x="365.76" y="238.76"/>
 <pinref part="IC8" gate="A" pin="A3"/>
 <wire x1="368.3" y1="236.22" x2="365.76" y2="236.22" width="0.1524" layer="91"/>
 <junction x="365.76" y="236.22"/>
-<pinref part="IC8" gate="A" pin="A4"/>
-<wire x1="368.3" y1="233.68" x2="365.76" y2="233.68" width="0.1524" layer="91"/>
-<junction x="365.76" y="233.68"/>
 </segment>
 </net>
 <net name="5V" class="0">
@@ -23281,6 +23277,10 @@ Based on the following sources:
 <wire x1="459.74" y1="287.02" x2="469.9" y2="287.02" width="0.1524" layer="91"/>
 <label x="469.9" y="287.02" size="1.4224" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="IC8" gate="A" pin="A4"/>
+<wire x1="368.3" y1="233.68" x2="360.68" y2="233.68" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="/AFD" class="0">
 <segment>
@@ -23406,6 +23406,7 @@ Based on the following sources:
 <segment>
 <pinref part="IC8" gate="A" pin="A8"/>
 <wire x1="368.3" y1="223.52" x2="360.68" y2="223.52" width="0.1524" layer="91"/>
+<label x="360.68" y="223.52" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="BUSY" class="0">
@@ -23417,6 +23418,7 @@ Based on the following sources:
 <segment>
 <pinref part="IC8" gate="A" pin="A7"/>
 <wire x1="368.3" y1="226.06" x2="360.68" y2="226.06" width="0.1524" layer="91"/>
+<label x="360.68" y="226.06" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="PE" class="0">
@@ -23428,6 +23430,7 @@ Based on the following sources:
 <segment>
 <pinref part="IC8" gate="A" pin="A6"/>
 <wire x1="368.3" y1="228.6" x2="360.68" y2="228.6" width="0.1524" layer="91"/>
+<label x="360.68" y="228.6" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="SLCT" class="0">
@@ -23439,6 +23442,7 @@ Based on the following sources:
 <segment>
 <pinref part="IC8" gate="A" pin="A5"/>
 <wire x1="368.3" y1="231.14" x2="360.68" y2="231.14" width="0.1524" layer="91"/>
+<label x="360.68" y="231.14" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="PD0_IN" class="0">
@@ -23582,12 +23586,14 @@ Based on the following sources:
 <segment>
 <pinref part="IC8" gate="A" pin="B8"/>
 <wire x1="393.7" y1="223.52" x2="401.32" y2="223.52" width="0.1524" layer="91"/>
+<label x="401.32" y="223.52" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="PR_OUT2" class="0">
 <segment>
 <pinref part="IC8" gate="A" pin="B7"/>
 <wire x1="393.7" y1="226.06" x2="401.32" y2="226.06" width="0.1524" layer="91"/>
+<label x="401.32" y="226.06" size="1.4224" layer="95" xref="yes"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="TXA0/PB3"/>
@@ -23602,16 +23608,29 @@ Based on the following sources:
 <segment>
 <pinref part="IC8" gate="A" pin="B6"/>
 <wire x1="393.7" y1="228.6" x2="401.32" y2="228.6" width="0.1524" layer="91"/>
+<label x="401.32" y="228.6" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="PR_OUT4" class="0">
 <segment>
 <pinref part="IC8" gate="A" pin="B5"/>
 <wire x1="393.7" y1="231.14" x2="401.32" y2="231.14" width="0.1524" layer="91"/>
+<label x="401.32" y="231.14" size="1.4224" layer="95" xref="yes"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="/CTS0/PB1"/>
 <wire x1="137.16" y1="73.66" x2="152.4" y2="73.66" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="/ERR_OUT" class="0">
+<segment>
+<wire x1="393.7" y1="233.68" x2="401.32" y2="233.68" width="0.1524" layer="91"/>
+<pinref part="IC8" gate="A" pin="B4"/>
+<label x="401.32" y="233.68" size="1.4224" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="/RTS0/PB0"/>
+<wire x1="137.16" y1="71.12" x2="152.4" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
