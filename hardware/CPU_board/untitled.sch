@@ -23403,12 +23403,20 @@ Based on the following sources:
 <wire x1="452.12" y1="266.7" x2="441.96" y2="266.7" width="0.1524" layer="91"/>
 <label x="441.96" y="266.7" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
+<segment>
+<pinref part="IC8" gate="A" pin="A8"/>
+<wire x1="368.3" y1="223.52" x2="360.68" y2="223.52" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="BUSY" class="0">
 <segment>
 <pinref part="JP9" gate="A" pin="21"/>
 <wire x1="452.12" y1="264.16" x2="441.96" y2="264.16" width="0.1524" layer="91"/>
 <label x="441.96" y="264.16" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="IC8" gate="A" pin="A7"/>
+<wire x1="368.3" y1="226.06" x2="360.68" y2="226.06" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PE" class="0">
@@ -23417,12 +23425,20 @@ Based on the following sources:
 <wire x1="452.12" y1="261.62" x2="441.96" y2="261.62" width="0.1524" layer="91"/>
 <label x="441.96" y="261.62" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
+<segment>
+<pinref part="IC8" gate="A" pin="A6"/>
+<wire x1="368.3" y1="228.6" x2="360.68" y2="228.6" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="SLCT" class="0">
 <segment>
 <pinref part="JP9" gate="A" pin="25"/>
 <wire x1="452.12" y1="259.08" x2="441.96" y2="259.08" width="0.1524" layer="91"/>
 <label x="441.96" y="259.08" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="IC8" gate="A" pin="A5"/>
+<wire x1="368.3" y1="231.14" x2="360.68" y2="231.14" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PD0_IN" class="0">
