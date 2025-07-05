@@ -21068,7 +21068,7 @@ Based on the following sources:
 <part name="GND14" library="supply1" deviceset="GND" device=""/>
 <part name="JP5" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="GND16" library="supply1" deviceset="GND" device=""/>
-<part name="R10" library="rcl" deviceset="R-EU_" device="R0603"/>
+<part name="R10" library="rcl" deviceset="R-EU_" device="M1206"/>
 <part name="JP6" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="C21" library="rcl" deviceset="CPOL-EU" device="153CLV-0810" value="220uF"/>
 <part name="C20" library="rcl" deviceset="CPOL-EU" device="153CLV-0810" value="220uF"/>
@@ -23694,6 +23694,12 @@ Based on the following sources:
 <pinref part="R11" gate="G$1" pin="1"/>
 <wire x1="368.3" y1="218.44" x2="345.44" y2="218.44" width="0.1524" layer="91"/>
 <wire x1="345.44" y1="218.44" x2="345.44" y2="220.98" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="ST" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="ST"/>
+<wire x1="55.88" y1="35.56" x2="55.88" y2="30.48" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
