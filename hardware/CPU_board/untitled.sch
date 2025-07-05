@@ -21089,6 +21089,7 @@ Based on the following sources:
 <part name="C24" library="rcl" deviceset="C-EU" device="C0603"/>
 <part name="C26" library="rcl" deviceset="C-EU" device="C0402"/>
 <part name="C27" library="rcl" deviceset="C-EU" device="C0402"/>
+<part name="GND26" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -21208,6 +21209,7 @@ Based on the following sources:
 <instance part="C24" gate="G$1" x="-58.42" y="190.5"/>
 <instance part="C26" gate="G$1" x="-50.8" y="190.5"/>
 <instance part="C27" gate="G$1" x="-43.18" y="190.5"/>
+<instance part="GND26" gate="1" x="147.32" y="132.08"/>
 </instances>
 <busses>
 </busses>
@@ -21602,6 +21604,18 @@ Based on the following sources:
 <wire x1="368.3" y1="236.22" x2="365.76" y2="236.22" width="0.1524" layer="91"/>
 <junction x="365.76" y="236.22"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="EV2"/>
+<wire x1="116.84" y1="137.16" x2="116.84" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="139.7" x2="139.7" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="139.7" x2="139.7" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="EV1"/>
+<wire x1="139.7" y1="116.84" x2="137.16" y2="116.84" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="139.7" x2="147.32" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="147.32" y1="139.7" x2="147.32" y2="134.62" width="0.1524" layer="91"/>
+<junction x="139.7" y="139.7"/>
+<pinref part="GND26" gate="1" pin="GND"/>
+</segment>
 </net>
 <net name="5V" class="0">
 <segment>
@@ -21611,8 +21625,13 @@ Based on the following sources:
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="VDD@2"/>
-<wire x1="137.16" y1="106.68" x2="152.4" y2="106.68" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="106.68" x2="139.7" y2="106.68" width="0.1524" layer="91"/>
 <label x="152.4" y="106.68" size="1.4224" layer="95" xref="yes"/>
+<pinref part="U$1" gate="G$1" pin="/DREQ1"/>
+<wire x1="139.7" y1="106.68" x2="152.4" y2="106.68" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="104.14" x2="139.7" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="104.14" x2="139.7" y2="106.68" width="0.1524" layer="91"/>
+<junction x="139.7" y="106.68"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="VDD@1"/>
