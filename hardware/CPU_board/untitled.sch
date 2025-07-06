@@ -21092,6 +21092,8 @@ Based on the following sources:
 <part name="GND26" library="supply1" deviceset="GND" device=""/>
 <part name="R14" library="rcl" deviceset="R-EU_" device="0204/5"/>
 <part name="R15" library="rcl" deviceset="R-EU_" device="R0402"/>
+<part name="C29" library="rcl" deviceset="C-EU" device="C0603"/>
+<part name="C30" library="rcl" deviceset="CPOL-EU" device="SMCB"/>
 </parts>
 <sheets>
 <sheet>
@@ -21214,6 +21216,8 @@ Based on the following sources:
 <instance part="GND26" gate="1" x="147.32" y="132.08"/>
 <instance part="R14" gate="G$1" x="55.88" y="25.4" rot="R270"/>
 <instance part="R15" gate="G$1" x="162.56" y="104.14"/>
+<instance part="C29" gate="G$1" x="-35.56" y="190.5"/>
+<instance part="C30" gate="G$1" x="-127" y="190.5"/>
 </instances>
 <busses>
 </busses>
@@ -21316,6 +21320,14 @@ Based on the following sources:
 <wire x1="-50.8" y1="182.88" x2="-43.18" y2="182.88" width="0.1524" layer="91"/>
 <wire x1="-43.18" y1="182.88" x2="-43.18" y2="185.42" width="0.1524" layer="91"/>
 <junction x="-50.8" y="182.88"/>
+<pinref part="C29" gate="G$1" pin="2"/>
+<wire x1="-43.18" y1="182.88" x2="-35.56" y2="182.88" width="0.1524" layer="91"/>
+<wire x1="-35.56" y1="182.88" x2="-35.56" y2="185.42" width="0.1524" layer="91"/>
+<junction x="-43.18" y="182.88"/>
+<pinref part="C30" gate="G$1" pin="-"/>
+<wire x1="-119.38" y1="182.88" x2="-127" y2="182.88" width="0.1524" layer="91"/>
+<wire x1="-127" y1="182.88" x2="-127" y2="185.42" width="0.1524" layer="91"/>
+<junction x="-119.38" y="182.88"/>
 </segment>
 <segment>
 <pinref part="GND15" gate="1" pin="GND"/>
@@ -21710,6 +21722,14 @@ Based on the following sources:
 <wire x1="-50.8" y1="195.58" x2="-43.18" y2="195.58" width="0.1524" layer="91"/>
 <wire x1="-43.18" y1="195.58" x2="-43.18" y2="193.04" width="0.1524" layer="91"/>
 <junction x="-50.8" y="195.58"/>
+<pinref part="C29" gate="G$1" pin="1"/>
+<wire x1="-43.18" y1="195.58" x2="-35.56" y2="195.58" width="0.1524" layer="91"/>
+<wire x1="-35.56" y1="195.58" x2="-35.56" y2="193.04" width="0.1524" layer="91"/>
+<junction x="-43.18" y="195.58"/>
+<pinref part="C30" gate="G$1" pin="+"/>
+<wire x1="-119.38" y1="195.58" x2="-127" y2="195.58" width="0.1524" layer="91"/>
+<wire x1="-127" y1="195.58" x2="-127" y2="193.04" width="0.1524" layer="91"/>
+<junction x="-119.38" y="195.58"/>
 </segment>
 <segment>
 <pinref part="C9" gate="G$1" pin="2"/>
