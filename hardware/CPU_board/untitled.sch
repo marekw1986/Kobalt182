@@ -20993,7 +20993,7 @@ Based on the following sources:
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
 <part name="C1" library="rcl" deviceset="C-EU" device="C0603"/>
 <part name="C2" library="rcl" deviceset="C-EU" device="C0603"/>
-<part name="C3" library="rcl" deviceset="C-EU" device="C0603"/>
+<part name="C3" library="rcl" deviceset="C-EU" device="C0402"/>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
 <part name="X1" library="con-subd" deviceset="M09" device="HP"/>
 <part name="C4" library="rcl" deviceset="C-EU" device="C0603"/>
@@ -21090,6 +21090,8 @@ Based on the following sources:
 <part name="C26" library="rcl" deviceset="C-EU" device="C0402"/>
 <part name="C27" library="rcl" deviceset="C-EU" device="C0402"/>
 <part name="GND26" library="supply1" deviceset="GND" device=""/>
+<part name="R14" library="rcl" deviceset="R-EU_" device="0204/5"/>
+<part name="R15" library="rcl" deviceset="R-EU_" device="R0402"/>
 </parts>
 <sheets>
 <sheet>
@@ -21210,6 +21212,8 @@ Based on the following sources:
 <instance part="C26" gate="G$1" x="-50.8" y="190.5"/>
 <instance part="C27" gate="G$1" x="-43.18" y="190.5"/>
 <instance part="GND26" gate="1" x="147.32" y="132.08"/>
+<instance part="R14" gate="G$1" x="55.88" y="25.4" rot="R270"/>
+<instance part="R15" gate="G$1" x="162.56" y="104.14"/>
 </instances>
 <busses>
 </busses>
@@ -21625,13 +21629,8 @@ Based on the following sources:
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="VDD@2"/>
-<wire x1="137.16" y1="106.68" x2="139.7" y2="106.68" width="0.1524" layer="91"/>
 <label x="152.4" y="106.68" size="1.4224" layer="95" xref="yes"/>
-<pinref part="U$1" gate="G$1" pin="/DREQ1"/>
-<wire x1="139.7" y1="106.68" x2="152.4" y2="106.68" width="0.1524" layer="91"/>
-<wire x1="137.16" y1="104.14" x2="139.7" y2="104.14" width="0.1524" layer="91"/>
-<wire x1="139.7" y1="104.14" x2="139.7" y2="106.68" width="0.1524" layer="91"/>
-<junction x="139.7" y="106.68"/>
+<wire x1="137.16" y1="106.68" x2="152.4" y2="106.68" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="VDD@1"/>
@@ -21836,6 +21835,14 @@ Based on the following sources:
 <segment>
 <pinref part="R11" gate="G$1" pin="2"/>
 <wire x1="345.44" y1="231.14" x2="345.44" y2="233.68" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="R14" gate="G$1" pin="2"/>
+<wire x1="55.88" y1="20.32" x2="55.88" y2="17.78" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="R15" gate="G$1" pin="2"/>
+<wire x1="167.64" y1="104.14" x2="170.18" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="TXD1" class="0">
@@ -23073,8 +23080,13 @@ Based on the following sources:
 <net name="N$25" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="CKA0//DREQ0"/>
-<wire x1="137.16" y1="91.44" x2="152.4" y2="91.44" width="0.1524" layer="91"/>
-<label x="152.4" y="91.44" size="1.4224" layer="95" xref="yes"/>
+<wire x1="137.16" y1="91.44" x2="139.7" y2="91.44" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="/DREQ1"/>
+<wire x1="137.16" y1="104.14" x2="139.7" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="91.44" x2="139.7" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="104.14" x2="157.48" y2="104.14" width="0.1524" layer="91"/>
+<junction x="139.7" y="104.14"/>
+<pinref part="R15" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$27" class="0">
@@ -23700,6 +23712,7 @@ Based on the following sources:
 <segment>
 <pinref part="U$1" gate="G$1" pin="ST"/>
 <wire x1="55.88" y1="35.56" x2="55.88" y2="30.48" width="0.1524" layer="91"/>
+<pinref part="R14" gate="G$1" pin="1"/>
 </segment>
 </net>
 </nets>
