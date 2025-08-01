@@ -24618,9 +24618,9 @@ Source: www.kingbright.com</description>
 <label x="289.56" y="162.56" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
-<pinref part="IC4" gate="A" pin="Y7"/>
-<wire x1="-190.5" y1="5.08" x2="-185.42" y2="5.08" width="0.1524" layer="91"/>
-<label x="-185.42" y="5.08" size="1.4224" layer="95" xref="yes"/>
+<pinref part="IC4" gate="A" pin="Y5"/>
+<wire x1="-190.5" y1="10.16" x2="-185.42" y2="10.16" width="0.1524" layer="91"/>
+<label x="-185.42" y="10.16" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$31" class="0">
@@ -24708,11 +24708,6 @@ Source: www.kingbright.com</description>
 </net>
 <net name="CS5" class="0">
 <segment>
-<pinref part="IC4" gate="A" pin="Y5"/>
-<wire x1="-190.5" y1="10.16" x2="-185.42" y2="10.16" width="0.1524" layer="91"/>
-<label x="-185.42" y="10.16" size="1.4224" layer="95" xref="yes"/>
-</segment>
-<segment>
 <wire x1="464.82" y1="66.04" x2="472.44" y2="66.04" width="0.1524" layer="91"/>
 <label x="472.44" y="66.04" size="1.4224" layer="95" xref="yes"/>
 <pinref part="JP2" gate="A" pin="4"/>
@@ -24751,11 +24746,6 @@ Source: www.kingbright.com</description>
 </segment>
 </net>
 <net name="CF6" class="0">
-<segment>
-<pinref part="IC4" gate="A" pin="Y6"/>
-<wire x1="-190.5" y1="7.62" x2="-185.42" y2="7.62" width="0.1524" layer="91"/>
-<label x="-185.42" y="7.62" size="1.4224" layer="95" xref="yes"/>
-</segment>
 <segment>
 <pinref part="JP2" gate="A" pin="8"/>
 <wire x1="464.82" y1="60.96" x2="472.44" y2="60.96" width="0.1524" layer="91"/>
@@ -25229,6 +25219,20 @@ Source: www.kingbright.com</description>
 <pinref part="R18" gate="G$1" pin="1"/>
 <pinref part="U$1" gate="G$1" pin="/W//REQA/PC5"/>
 <wire x1="93.98" y1="157.48" x2="93.98" y2="137.16" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="CS6_NO_USE" class="0">
+<segment>
+<pinref part="IC4" gate="A" pin="Y6"/>
+<wire x1="-190.5" y1="7.62" x2="-185.42" y2="7.62" width="0.1524" layer="91"/>
+<label x="-185.42" y="7.62" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="CS7_NO_USE" class="0">
+<segment>
+<pinref part="IC4" gate="A" pin="Y7"/>
+<wire x1="-190.5" y1="5.08" x2="-185.42" y2="5.08" width="0.1524" layer="91"/>
+<label x="-185.42" y="5.08" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 </nets>
