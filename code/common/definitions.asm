@@ -67,6 +67,11 @@ RAMUBR              EQU     0E6H
 RAMLBR              EQU     0E7H
 ROMBR               EQU     0E8H
 WSG                 EQU     0D8H        ; Wait state generator
+IEPMR               EQU     0DFH        ; Interrupt edge/pin mux register
+MMC                 EQU     0FFH        ; MIMIC master control register
+IUS_IP              EQU     0FEH
+IE_REG              EQU     0FDH
+IVEC                EQU     0FCH        ; Interrupt vector
 
 ; CF REGS
 CFBASE              EQU     0E0H
