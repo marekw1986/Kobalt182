@@ -62,6 +62,9 @@ ESCC_A_DATA         EQU     0E1H
 ESCC_B_CTRL         EQU     0E2H
 ESCC_B_DATA         EQU     0E3H
 
+PCDIR               EQU     0DDH
+PCDATA              EQU     0DEH
+
 SCR                 EQU     0EFH        ; System confoguration register
 RAMUBR              EQU     0E6H
 RAMLBR              EQU     0E7H
