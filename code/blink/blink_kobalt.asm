@@ -19,7 +19,9 @@ START:
         OUT   RAMUBR        ; I/O E6h
 
         ; Configure Wait State Generator
-        MVI   A, 99H        
+        MVI   A, 00H
+        DB 0EDH, 039H, 032H     ; OUT0 32H
+        MVI   A, 80H        
         OUT   WSG           ; I/O addr 0xD8
 
         ; Small delay to let bus decode settle (optional)
