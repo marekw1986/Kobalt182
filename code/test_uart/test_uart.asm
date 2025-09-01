@@ -2,20 +2,15 @@ INCL "definitions.asm"
 
         ORG   00000H
 START:
-        ; -------------------------------------------------------
-        ; MMU: map ROM 0x00000..0x7FFFF and RAM 0x80000..0xFFFFF
-        ; ROMBR   = 0x7F  -> ROM upper boundary (A19..A12 = 0x7F)
-        ; RAMLBR  = 0x80  -> RAM lower boundary (A19..A12 = 0x80)
-        ; RAMUBR  = 0xFF  -> RAM upper boundary (A19..A12 = 0xFF)
-        ; -------------------------------------------------------
-        MVI   A, 07FH
-        OUT   ROMBR
+        ; --- Program ROM window (0x0000–0x7FFF) ---
+        MVI   A, 07H        ; upper block = 0x07 (0x7000–0x7FFF)
+        OUT   ROMBR         ; I/O E8h
 
-        MVI   A, 080H
-        OUT   RAMLBR
-
-        MVI   A, 0FFH
-        OUT   RAMUBR
+        ; --- Program RAM window (0x8000–0xFFFF) ---
+        MVI   A, 08H        ; lower block = 0x08 (0x8000)
+        OUT   RAMLBR        ; I/O E7h
+        MVI   A, 0FH        ; upper block = 0x0F (0xF000–0xFFFF)
+        OUT   RAMUBR        ; I/O E6h
 
         ; small settling delay (optional)
         NOP
