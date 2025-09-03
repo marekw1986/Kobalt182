@@ -1,5 +1,4 @@
         INCL "../common/definitions.asm"
-        INCL "../common/utils.asm"
 
         ORG   0000H
 START:  
@@ -21,16 +20,12 @@ START:
         ; Configure Wait State Generator
         MVI   A, 00H
         DB 0EDH, 039H, 032H     ; OUT0 32H
-        MVI   A, 99H        
+        MVI   A, 88H        
         OUT   WSG           ; I/O addr 0xD8
 
         ; Small delay to let bus decode settle (optional)
         NOP
         NOP
-
-        ; Setup stack to top of mapped RAM
-        LXI   H, 0FFDFH       ; Stack top
-        SPHL
         
         ; ----------------------------
         ; Init PIO Port A
@@ -38,46 +33,40 @@ START:
 		; Set Port C to GPIO (parallel)
 ;        MVI   A, 80H      ; SCR bit 7 = 1, other bits = 0
 ;        OUT   SCR         ; Use definitions.asm to define SCR
-        ; Configure only all lines as outputs
+        ; Configure all lines as outputs
         MVI   A, 00H
         OUT   PADIR            ; use label from definitions.asm
 
-        ; Ensure all PA lines high
-        MVI   A, 0FFH
+        ; Ensure all PA lines low
+        MVI   A, 00H
         OUT   PADATA            ; use label from definitions.asm
+        
+        ; Setup stack to top of mapped RAM
+        LXI   H, 8200H       ; Stack top
+        SPHL
+        
+        NOP
+        NOP
+        NOP
 
 ; ----------------------------
-; Blink loop on PC5
+; Blink loop on PA
 ; ----------------------------
 LOOP:
-        ; To check if we can actually store values in RAM
-        LXI   H,8200h
-        MVI   A,55h
-        MOV   M,A         ; write to RAM
-        MVI   A,0
-        MOV   A,M         ; read back
-        CPI   55h
-        JNZ   SET_ERR
-        MVI   A, 80H
-        OUT   PADATA
-        JMP   NEXT
-
-SET_ERR:
-        MVI   A, 01H
+        MVI   A, 0FFH
         OUT   PADATA
         
-NEXT:
-        MVI   B, 255
-D1:     DCR   B
-        JNZ   D1
+        MVI   A, 255
+        CALL DELAY
 
         MVI   A, 00H
         OUT   PADATA
-
-        MVI   B, 255
-D2:     DCR   B
-        JNZ   D2
+        
+        MVI   A, 255
+        CALL DELAY
 
         JMP   LOOP
+        
+        INCL "../common/utils.asm"
 
         END

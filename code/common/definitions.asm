@@ -62,6 +62,9 @@ ESCC_A_DATA         EQU     0E1H
 ESCC_B_CTRL         EQU     0E2H
 ESCC_B_DATA         EQU     0E3H
 
+PADIR               EQU     0EDH
+PADATA              EQU     0EEH
+
 PCDIR               EQU     0DDH
 PCDATA              EQU     0DEH
 

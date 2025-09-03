@@ -1,7 +1,16 @@
-INCL "definitions.asm"
+        INCL "../common/definitions.asm"
+
+CONTROL  EQU 0E0H    ; ESCC Channel A control register (WRx/RR0 etc.)
+DATA     EQU 0E1H    ; ESCC Channel A data (TDR/RDR)
+TxRDY    EQU 04H    ; Bit 2 of RR0 = Transmit Buffer Empty
 
         ORG   00000H
 START:
+        DI
+
+        ; ----------------------------
+        ; MMU / RAM mapping
+        ; ----------------------------
         ; --- Program ROM window (0x0000–0x7FFF) ---
         MVI   A, 07H        ; upper block = 0x07 (0x7000–0x7FFF)
         OUT   ROMBR         ; I/O E8h
@@ -12,99 +21,72 @@ START:
         MVI   A, 0FH        ; upper block = 0x0F (0xF000–0xFFFF)
         OUT   RAMUBR        ; I/O E6h
 
-        ; small settling delay (optional)
+        ; Configure Wait State Generator
+        MVI   A, 00H
+        DB 0EDH, 039H, 032H     ; OUT0 32H
+        MVI   A, 99H        
+        OUT   WSG           ; I/O addr 0xD8
+
+        ; Small delay to let bus decode settle (optional)
         NOP
         NOP
 
-        ; -------------------------------------------------------
-        ; Set up stack pointer inside mapped RAM
-        ; (16-bit SP; choose an offset inside the mapped RAM window)
-        ; -------------------------------------------------------
-        LXI   H, 0FFDFH      ; SP = 0xFFDF (top area of your RAM window)
+        ; Setup stack to top of mapped RAM
+        LXI   H, 0FFDFH       ; Stack top
         SPHL
 
-        ; -------------------------------------------------------
-        ; UART1: configure baud generator (RLDR1) and enable Tx/Rx
-        ; System clock (PHI) = 12.5 MHz (25 MHz crystal / 2)
-        ; RLDR = 80 decimal (0x0050) -> ~9645 bps (≈0.5% error)
-        ; -------------------------------------------------------
-        MVI   A, 050H
-        OUT   RLDR1L
-        MVI   A, 000H
-        OUT   RLDR1H
+; --- Reset channel A ---
+        mvi   a, 09h           ; WR9 (Reset and interrupt control)
+        out   CONTROL
+        mvi   a, 0C0h          ; Reset Channel A + Tx underrun
+        out   CONTROL
 
-        ; Enable Receiver (bit0) and Transmitter (bit1) on channel 1
-        ; (CNTLB1 bit layout per definitions / datasheet)
-        MVI   A, 00000011B
-        OUT   CNTLB1
+; --- Async mode (8N1) ---
+        mvi   a, 04h           ; Select WR4
+        out   CONTROL
+        mvi   a, 0C4h          ; 16× clock, 1 stop bit, 8 bits, async
+        out   CONTROL
 
-        ; Optionally clear status / FIFOs if your hardware needs it.
+; --- Disable Rx (clear receiver parameters) ---
+        mvi   a, 03h           ; Select WR3
+        out   CONTROL
+        mvi   a, 00h           ; Rx disabled
+        out   CONTROL
 
-MAIN_LOOP:
-        MVI   A, 'H'
-        CALL  OUT_CHAR
-        MVI   A, 'e'
-        CALL  OUT_CHAR
-        MVI   A, 'l'
-        CALL  OUT_CHAR
-        MVI   A, 'l'
-        CALL  OUT_CHAR
-        MVI   A, 'o'
-        CALL  OUT_CHAR
-        MVI   A, ' '
-        CALL  OUT_CHAR
-        MVI   A, 'R'
-        CALL  OUT_CHAR
-        MVI   A, 'X'
-        CALL  OUT_CHAR
-        MVI   A, '1'
-        CALL  OUT_CHAR
-        MVI   A, 0DH
-        CALL  OUT_CHAR
-        MVI   A, 0AH
-        CALL  OUT_CHAR
+; --- Enable Tx (and RTS) ---
+        mvi   a, 05h           ; Select WR5
+        out   CONTROL
+        mvi   a, 0EAh          ; Tx enable, RTS, 8-bit — 1110 1010b
+        out   CONTROL
 
-        ; small time-waster loop (16-bit)
-        LXI   B, 0FFFFH
-DELAY_LOOP:
-        DCX   B
-        MOV   A, B
-        ORA   C
-        JNZ   DELAY_LOOP
+; --- Baud rate generator (BRG) setup ---
+        ; Divisor ≈ 651 for 9600 baud @ 12.5 MHz clock
+        mvi   a, 0Ch           ; Select WR12 (BRG low byte)
+        out   CONTROL
+        mvi   a, 08Bh          ; Low byte = 0x8B (139)
+        out   CONTROL
 
-        JMP   MAIN_LOOP
+        mvi   a, 0Dh           ; Select WR13 (BRG high byte)
+        out   CONTROL
+        mvi   a, 02h           ; High byte = 0x02 (2)
+        out   CONTROL
 
-; -------------------------------------------------------
-; OUT_CHAR: send character in A via UART1 (TDR1)
-; Waits for Tx ready (STAT1 & TxRDY_MASK) then writes TDR1.
-; Requires RAM/stack (CALL/RET).
-; -------------------------------------------------------
-OUT_CHAR:
-        PUSH  PSW
+        mvi   a, 0Eh           ; Select WR14 (BRG control)
+        out   CONTROL
+        mvi   a, 03h           ; Enable BRG and set clock source
+        out   CONTROL
+
+LOOP:
+
 WAIT_TX:
-        IN    STAT1
-        ANI   TxRDY_MASK
-        JZ    WAIT_TX
-        POP   PSW
-        OUT   TDR1
-        RET
+        in    CONTROL           ; Read RR0 status
+        ani   TxRDY            ; Check Tx buffer empty flag
+        jz    WAIT_TX
 
-; -------------------------------------------------------
-; Data areas (placed in RAM window)
-; -------------------------------------------------------
-        ORG   080000H        ; (symbolic; assembler may treat ORG as 16-bit)
-; if your assembler doesn't accept 20-bit ORG, you can keep this
-; region at a 16-bit ORG inside the mapped RAM bank as you used before:
-;        ORG   8000H
-TXTEND: DS    0
-VARBGN: DS    55
-BUFFER: DS    64
-BUFEND: DS    1
-BLKDAT: DS    512
-SYSTICK:DS    2
-RTCTICK:DS    2
+        mvi   a, 055h          ; Data to send
+        out   DATA             ; Write to transmit data port
+        
 
-        ORG   0FFDFH
-STACK:  DS    0
+        JMP   LOOP
 
         END
