@@ -23196,6 +23196,7 @@ SOurce: www.abracon.com</description>
 <pinref part="C22" gate="G$1" pin="+"/>
 <wire x1="-96.52" y1="266.7" x2="-96.52" y2="274.32" width="0.1524" layer="91"/>
 <junction x="-96.52" y="274.32"/>
+<label x="-88.9" y="274.32" size="1.4224" layer="95" xref="yes"/>
 </segment>
 <segment>
 <pinref part="R7" gate="G$1" pin="2"/>
@@ -23251,6 +23252,7 @@ SOurce: www.abracon.com</description>
 <segment>
 <pinref part="RN1" gate="A" pin="1"/>
 <wire x1="444.5" y1="40.64" x2="444.5" y2="45.72" width="0.1524" layer="91"/>
+<label x="444.5" y="45.72" size="1.4224" layer="95" rot="R90" xref="yes"/>
 </segment>
 <segment>
 <pinref part="U$2" gate="G$1" pin="VCC"/>
@@ -23271,6 +23273,7 @@ SOurce: www.abracon.com</description>
 <pinref part="JP7" gate="G$1" pin="1"/>
 <wire x1="-66.04" y1="266.7" x2="-73.66" y2="266.7" width="0.1524" layer="91"/>
 <wire x1="-73.66" y1="266.7" x2="-73.66" y2="274.32" width="0.1524" layer="91"/>
+<label x="-73.66" y="274.32" size="1.4224" layer="95" rot="R90" xref="yes"/>
 </segment>
 <segment>
 <pinref part="R11" gate="G$1" pin="2"/>
@@ -23280,6 +23283,7 @@ SOurce: www.abracon.com</description>
 <segment>
 <pinref part="R14" gate="G$1" pin="2"/>
 <wire x1="55.88" y1="20.32" x2="55.88" y2="17.78" width="0.1524" layer="91"/>
+<label x="55.88" y="17.78" size="1.4224" layer="95" rot="R270" xref="yes"/>
 </segment>
 <segment>
 <pinref part="R15" gate="G$1" pin="2"/>
@@ -24684,13 +24688,6 @@ SOurce: www.abracon.com</description>
 <wire x1="447.04" y1="17.78" x2="436.88" y2="17.78" width="0.1524" layer="91"/>
 <wire x1="447.04" y1="25.4" x2="447.04" y2="17.78" width="0.1524" layer="91"/>
 <junction x="447.04" y="17.78"/>
-</segment>
-</net>
-<net name="CF6" class="0">
-<segment>
-<pinref part="JP2" gate="A" pin="8"/>
-<wire x1="464.82" y1="60.96" x2="472.44" y2="60.96" width="0.1524" layer="91"/>
-<label x="472.44" y="60.96" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$35" class="0">
