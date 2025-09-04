@@ -44,19 +44,20 @@ START:
 ; --- Async mode (8N1) ---
         mvi   a, 04h           ; Select WR4
         out   CONTROL
-        mvi   a, 0C4h          ; 16× clock, 1 stop bit, 8 bits, async
+        mvi   a, 44h          ; 16× clock, 1 stop bit, 8 bits, async
         out   CONTROL
 
 ; --- Disable Rx (clear receiver parameters) ---
         mvi   a, 03h           ; Select WR3
         out   CONTROL
         mvi   a, 00h           ; Rx disabled
+        ;mvi	  a, 01h		   ; Rx enabled
         out   CONTROL
 
 ; --- Enable Tx (and RTS) ---
         mvi   a, 05h           ; Select WR5
         out   CONTROL
-        mvi   a, 0EAh          ; Tx enable, RTS, 8-bit — 1110 1010b
+        mvi   a, 0EAh          ; Tx enable, RTS, DTR 8-bit — 1110 1010b
         out   CONTROL
 
 ; --- Baud rate generator (BRG) setup ---
