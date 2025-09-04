@@ -32,49 +32,49 @@ START:
         SPHL
 
 ; --- Reset channel A ---
-        mvi   a, 09h           ; WR9 (Reset and interrupt ESCC_A_CTRL)
-        out   ESCC_A_CTRL
-        mvi   a, 0C0h          ; Reset Channel A + Tx underrun
-        out   ESCC_A_CTRL
+        MVI   A, 09h           ; WR9 (Reset and interrupt ESCC_A_CTRL)
+        OUT   ESCC_A_CTRL
+        MVI   A, 0C0h          ; Reset Channel A + Tx underrun
+        OUT   ESCC_A_CTRL
 
 ; --- Async mode (8N1) ---
-        mvi   a, 04h           ; Select WR4
-        out   ESCC_A_CTRL
-        mvi   a, 44h          ; 16× clock, 1 stop bit, 8 bits, async
-        out   ESCC_A_CTRL
+        MVI   A, 04h           ; Select WR4
+        OUT   ESCC_A_CTRL
+        MVI   A, 44h          ; 16× clock, 1 stop bit, 8 bits, async
+        OUT   ESCC_A_CTRL
 
 ; --- Disable Rx (clear receiver parameters) ---
-        mvi   a, 03h           ; Select WR3
-        out   ESCC_A_CTRL
-        mvi   a, 00h           ; Rx disabled
-        ;mvi	  a, 01h		   ; Rx enabled
-        out   ESCC_A_CTRL
+        MVI   A, 03h           ; Select WR3
+        OUT   ESCC_A_CTRL
+        MVI   A, 00h           ; Rx disabled
+        ;MVI	  A, 01h		   ; Rx enabled
+        OUT   ESCC_A_CTRL
 
 ; --- Enable Tx (and RTS) ---
-        mvi   a, 05h           ; Select WR5
-        out   ESCC_A_CTRL
-        mvi   a, 0EAh          ; Tx enable, RTS, DTR 8-bit — 1110 1010b
-        out   ESCC_A_CTRL
+        MVI   A, 05h           ; Select WR5
+        OUT   ESCC_A_CTRL
+        MVI   A, 0EAh          ; Tx enable, RTS, DTR 8-bit — 1110 1010b
+        OUT   ESCC_A_CTRL
 
 ; --- Baud rate generator (BRG) setup ---
         ; Divisor ≈ 651 for 9600 baud @ 12.5 MHz clock
-        mvi   a, 0Ch           ; Select WR12 (BRG low byte)
-        out   ESCC_A_CTRL
-        mvi   a, 08Bh          ; Low byte = 0x8B (139)
-        out   ESCC_A_CTRL
+        MVI   A, 0Ch           ; Select WR12 (BRG low byte)
+        OUT   ESCC_A_CTRL
+        MVI   A, 08Bh          ; Low byte = 0x8B (139)
+        OUT   ESCC_A_CTRL
 
-        mvi   a, 0Dh           ; Select WR13 (BRG high byte)
-        out   ESCC_A_CTRL
-        mvi   a, 02h           ; High byte = 0x02 (2)
-        out   ESCC_A_CTRL
+        MVI   A, 0Dh           ; Select WR13 (BRG high byte)
+        OUT   ESCC_A_CTRL
+        MVI   A, 02h           ; High byte = 0x02 (2)
+        OUT   ESCC_A_CTRL
 
-        mvi   a, 0Eh           ; Select WR14 (BRG ESCC_A_CTRL)
-        out   ESCC_A_CTRL
-        mvi   a, 03h           ; Enable BRG and set clock source
-        out   ESCC_A_CTRL
+        MVI   A, 0Eh           ; Select WR14 (BRG ESCC_A_CTRL)
+        OUT   ESCC_A_CTRL
+        MVI   A, 03h           ; Enable BRG and set clock source
+        OUT   ESCC_A_CTRL
 
 LOOP:
-        mvi   A, 055h          ; ESCC_A_DATA to send
+        MVI   A, 055h          ; ESCC_A_DATA to send
         CALL OUT_CHAR             
         
 		MVI	  A, 255
