@@ -1,9 +1,5 @@
         INCL "../common/definitions.asm"
 
-CONTROL  EQU 0E0H    ; ESCC Channel A control register (WRx/RR0 etc.)
-DATA     EQU 0E1H    ; ESCC Channel A data (TDR/RDR)
-TxRDY    EQU 04H    ; Bit 2 of RR0 = Transmit Buffer Empty
-
         ORG   00000H
 START:
         DI
@@ -36,58 +32,56 @@ START:
         SPHL
 
 ; --- Reset channel A ---
-        mvi   a, 09h           ; WR9 (Reset and interrupt control)
-        out   CONTROL
+        mvi   a, 09h           ; WR9 (Reset and interrupt ESCC_A_CTRL)
+        out   ESCC_A_CTRL
         mvi   a, 0C0h          ; Reset Channel A + Tx underrun
-        out   CONTROL
+        out   ESCC_A_CTRL
 
 ; --- Async mode (8N1) ---
         mvi   a, 04h           ; Select WR4
-        out   CONTROL
+        out   ESCC_A_CTRL
         mvi   a, 44h          ; 16× clock, 1 stop bit, 8 bits, async
-        out   CONTROL
+        out   ESCC_A_CTRL
 
 ; --- Disable Rx (clear receiver parameters) ---
         mvi   a, 03h           ; Select WR3
-        out   CONTROL
+        out   ESCC_A_CTRL
         mvi   a, 00h           ; Rx disabled
         ;mvi	  a, 01h		   ; Rx enabled
-        out   CONTROL
+        out   ESCC_A_CTRL
 
 ; --- Enable Tx (and RTS) ---
         mvi   a, 05h           ; Select WR5
-        out   CONTROL
+        out   ESCC_A_CTRL
         mvi   a, 0EAh          ; Tx enable, RTS, DTR 8-bit — 1110 1010b
-        out   CONTROL
+        out   ESCC_A_CTRL
 
 ; --- Baud rate generator (BRG) setup ---
         ; Divisor ≈ 651 for 9600 baud @ 12.5 MHz clock
         mvi   a, 0Ch           ; Select WR12 (BRG low byte)
-        out   CONTROL
+        out   ESCC_A_CTRL
         mvi   a, 08Bh          ; Low byte = 0x8B (139)
-        out   CONTROL
+        out   ESCC_A_CTRL
 
         mvi   a, 0Dh           ; Select WR13 (BRG high byte)
-        out   CONTROL
+        out   ESCC_A_CTRL
         mvi   a, 02h           ; High byte = 0x02 (2)
-        out   CONTROL
+        out   ESCC_A_CTRL
 
-        mvi   a, 0Eh           ; Select WR14 (BRG control)
-        out   CONTROL
+        mvi   a, 0Eh           ; Select WR14 (BRG ESCC_A_CTRL)
+        out   ESCC_A_CTRL
         mvi   a, 03h           ; Enable BRG and set clock source
-        out   CONTROL
+        out   ESCC_A_CTRL
 
 LOOP:
-
-WAIT_TX:
-        in    CONTROL           ; Read RR0 status
-        ani   TxRDY            ; Check Tx buffer empty flag
-        jz    WAIT_TX
-
-        mvi   a, 055h          ; Data to send
-        out   DATA             ; Write to transmit data port
+        mvi   A, 055h          ; ESCC_A_DATA to send
+        CALL OUT_CHAR             
         
-
+		MVI	  A, 255
+		CALL  DELAY
+		
         JMP   LOOP
+
+		INCL "../common/utils.asm"
 
         END

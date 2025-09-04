@@ -1,14 +1,14 @@
 ; Various utils
 
 OUT_CHAR:
-;        PUSH PSW
-;OUT_CHAR_WAIT:
-;        IN   SCC2681_SRA
-;        ;ANI  TxRDY_MASK              ; Wait until TxRDY (bit 2) is set
+        PUSH PSW
+OUT_CHAR_WAIT:
+        IN   ESCC_A_CTRL
+        ANI  TxRDY_MASK               ; Wait until TxRDY (bit 2) is set
 ;        ANI  TxEMT_MASK              ; Wait until TxEMT (bit 3) is set
-;        JZ   OUT_CHAR_WAIT
-;        POP  PSW
-;        OUT  SCC2681_THRA           ; Write to Tx holding register
+        JZ   OUT_CHAR_WAIT
+        POP  PSW
+        OUT  ESCC_A_DATA              ; Write to Tx holding register
         RET
     
 DELAY:
