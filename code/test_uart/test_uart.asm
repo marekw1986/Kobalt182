@@ -20,16 +20,34 @@ START:
         ; Configure Wait State Generator
         MVI   A, 00H
         DB 0EDH, 039H, 032H     ; OUT0 32H
-        MVI   A, 99H        
+        MVI   A, 88H        
         OUT   WSG           ; I/O addr 0xD8
 
         ; Small delay to let bus decode settle (optional)
         NOP
         NOP
+        
+        ; ----------------------------
+        ; Init PIO Port A
+        ; ----------------------------
+		; Set Port C to GPIO (parallel)
+;        MVI   A, 80H      ; SCR bit 7 = 1, other bits = 0
+;        OUT   SCR         ; Use definitions.asm to define SCR
+        ; Configure all lines as outputs
+        MVI   A, 00H
+        OUT   PADIR            ; use label from definitions.asm
+
+        ; Ensure all PA lines low
+        MVI   A, 00H
+        OUT   PADATA            ; use label from definitions.asm
 
         ; Setup stack to top of mapped RAM
         LXI   H, 0FFDFH       ; Stack top
         SPHL
+        
+        NOP
+        NOP
+        NOP
 
 ; --- Reset channel A ---
         MVI   A, 09h           ; WR9 (Reset and interrupt ESCC_A_CTRL)
@@ -77,8 +95,17 @@ LOOP:
         MVI   A, 055h          ; ESCC_A_DATA to send
         CALL OUT_CHAR             
         
+        MVI   A, 0FFH
+        OUT   PADATA
+        
 		MVI	  A, 255
 		CALL  DELAY
+        
+        MVI   A, 00H
+        OUT   PADATA
+        
+        MVI   A, 255
+        CALL DELAY
 		
         JMP   LOOP
 
