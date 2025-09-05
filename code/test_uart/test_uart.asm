@@ -27,6 +27,9 @@ START:
         NOP
         NOP
         
+        MVI	  A, 04H		; Normal (level based detection for INT1 and INT2, MREQ, RTSA/PC2, IOCS, no low noise, no wait delay on HALT,
+        OUT	  IEPMR
+        
         ; ----------------------------
         ; Init PIO Port A
         ; ----------------------------
