@@ -19,7 +19,7 @@ START:
         OUT   RAMUBR        ; I/O E6h
 
         ; Configure Wait State Generator
-        MVI   A, 00H
+        XOR A
         DB 0EDH, 039H, 032H     ; OUT0 32H
         MVI   A, 99H        
         OUT   WSG           ; I/O addr 0xD8
@@ -39,7 +39,7 @@ START:
 ;        MVI   A, 80H      ; SCR bit 7 = 1, other bits = 0
 ;        OUT   SCR         ; Use definitions.asm to define SCR
         ; Configure only all lines as outputs
-        MVI   A, 00H
+        XOR A
         OUT   PADIR            ; use label from definitions.asm
 
         ; Ensure all PA lines high
@@ -71,7 +71,7 @@ NEXT:
 D1:     DCR   B
         JNZ   D1
 
-        MVI   A, 00H
+        XOR A
         OUT   PADATA
 
         MVI   B, 255

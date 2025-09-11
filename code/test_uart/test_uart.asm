@@ -18,7 +18,7 @@ START:
         OUT   RAMUBR        ; I/O E6h
 
         ; Configure Wait State Generator
-        MVI   A, 00H
+        XOR A
         DB 0EDH, 039H, 032H     ; OUT0 32H
         MVI   A, 88H        
         OUT   WSG           ; I/O addr 0xD8
@@ -37,11 +37,11 @@ START:
 ;        MVI   A, 80H      ; SCR bit 7 = 1, other bits = 0
 ;        OUT   SCR         ; Use definitions.asm to define SCR
         ; Configure all lines as outputs
-        MVI   A, 00H
+        XOR A
         OUT   PADIR            ; use label from definitions.asm
 
         ; Ensure all PA lines low
-        MVI   A, 00H
+        XOR A
         OUT   PADATA            ; use label from definitions.asm
 
         ; Setup stack to top of mapped RAM
@@ -67,7 +67,7 @@ START:
 ; --- Disable Rx (clear receiver parameters) ---
         MVI   A, 03h           ; Select WR3
         OUT   ESCC_A_CTRL
-        MVI   A, 00h           ; Rx disabled
+        XOR A           ; Rx disabled
         ;MVI	  A, 01h		   ; Rx enabled
         OUT   ESCC_A_CTRL
 
@@ -104,7 +104,7 @@ LOOP:
 		MVI	  A, 255
 		CALL  DELAY
         
-        MVI   A, 00H
+        XOR A
         OUT   PADATA
         
         MVI   A, 255

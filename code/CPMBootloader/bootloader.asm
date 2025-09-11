@@ -16,7 +16,7 @@ INIT:   LXI  H, 0000H
         SHLD SYSTICK
         LXI  H, 0000H
         SHLD RTCTICK
-        MVI A, 00H
+        XOR A
         STA  KBDDATA
         
         DI
@@ -35,7 +35,7 @@ INIT:   LXI  H, 0000H
         OUT   RAMUBR        ; I/O E6h
 
         ; Configure Wait State Generator
-        MVI   A, 00H
+        XOR A
         DB 0EDH, 039H, 032H     ; OUT0 32H
         MVI   A, 99H        
         OUT   WSG           ; I/O addr 0xD8
@@ -63,7 +63,7 @@ INIT:   LXI  H, 0000H
 ; --- Disable Rx (clear receiver parameters) ---
         MVI   A, 03h           ; Select WR3
         OUT   ESCC_A_CTRL
-        MVI   A, 00h           ; Rx disabled
+        XOR A           ; Rx disabled
         ;MVI	  A, 01h		   ; Rx enabled
         OUT   ESCC_A_CTRL
 
