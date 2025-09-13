@@ -1,4 +1,4 @@
-        INCL "../common/definitions.asm"
+        include "../common/definitions.asm"
 
         ORG   0000H
 START:  
@@ -8,20 +8,20 @@ START:
         ; MMU / RAM mapping
         ; ----------------------------
         ; --- Program ROM window (0x0000–0x7FFF) ---
-        MVI   A, 07H        ; upper block = 0x07 (0x7000–0x7FFF)
-        OUT   ROMBR         ; I/O E8h
+        LD   A, 07H        ; upper block = 0x07 (0x7000–0x7FFF)
+        OUT   (ROMBR), A         ; I/O E8h
 
         ; --- Program RAM window (0x8000–0xFFFF) ---
-        MVI   A, 08H        ; lower block = 0x08 (0x8000)
-        OUT   RAMLBR        ; I/O E7h
-        MVI   A, 0FH        ; upper block = 0x0F (0xF000–0xFFFF)
-        OUT   RAMUBR        ; I/O E6h
+        LD   A, 08H        ; lower block = 0x08 (0x8000)
+        OUT   (RAMLBR), A        ; I/O E7h
+        LD   A, 0FH        ; upper block = 0x0F (0xF000–0xFFFF)
+        OUT   (RAMUBR), A        ; I/O E6h
 
         ; Configure Wait State Generator
-        XRA A
-        DB 0EDH, 039H, 032H     ; OUT0 32H
-        MVI   A, 99H        
-        OUT   WSG           ; I/O addr 0xD8
+        LD   A, 00H
+        OUT0 (DCNTL), A     ; DB 0EDH, 039H, 032H
+        LD   A, 99H        
+        OUT   (WSG), A           ; I/O addr 0xD8
 
         ; Small delay to let bus decode settle (optional)
         NOP
@@ -34,16 +34,16 @@ START:
 ;        MVI   A, 80H      ; SCR bit 7 = 1, other bits = 0
 ;        OUT   SCR         ; Use definitions.asm to define SCR
         ; Configure all lines as outputs
-        XRA A
-        OUT   PADIR            ; use label from definitions.asm
+        LD   A, 00H
+        OUT   (PADIR), A            ; use label from definitions.asm
 
         ; Ensure all PA lines low
-        XRA A
-        OUT   PADATA            ; use label from definitions.asm
+        LD   A, 00H
+        OUT   (PADATA), A            ; use label from definitions.asm
         
         ; Setup stack to top of mapped RAM
-        LXI   H, 8200H       ; Stack top
-        SPHL
+        LD   HL, 8200H       ; Stack top
+        LD   SP, HL
         
         NOP
         NOP
@@ -53,20 +53,20 @@ START:
 ; Blink loop on PA
 ; ----------------------------
 LOOP:
-        MVI   A, 0FFH
-        OUT   PADATA
+        LD   A, 0FFH
+        OUT   (PADATA), A
         
-        MVI   C, 255
+        LD   C, 255
         CALL DELAY
 
-        XRA A
-        OUT   PADATA
+        LD   A, 00H
+        OUT   (PADATA), A
         
-        MVI   C, 255
+        LD   C, 255
         CALL DELAY
 
-        JMP   LOOP
+        JP   LOOP
         
-        INCL "../common/utils.asm"
+        include "../common/utils_z180.asm"
 
         END
