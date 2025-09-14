@@ -1,4 +1,4 @@
-        INCL "../common/definitions.asm"
+        include "../common/definitions.asm"
 
         ORG   0000H
 START:  
@@ -30,16 +30,20 @@ START:
         ; ----------------------------
         ; Init PIO Port A
         ; ----------------------------
-		; Set Port C to GPIO (parallel)
-;        MVI   A, 80H      ; SCR bit 7 = 1, other bits = 0
-;        OUT   SCR         ; Use definitions.asm to define SCR
+		; Set Port B to GPIO (parallel)
+        MVI   A, 60H      ; SCR bit 7 = 0, bit 6 = 1, bit 5 = 1, other bits = 0
+        OUT   SCR         ; Use definitions.asm to define SCR
         ; Configure all lines as outputs
         XRA A
         OUT   PADIR            ; use label from definitions.asm
-
         ; Ensure all PA lines low
         XRA A
         OUT   PADATA            ; use label from definitions.asm
+        
+        MVI   A, 1FH                ; PB0..Pb4 inputs, PB5..PB7 outputs
+        OUT   PBDIR
+        XRA A
+        OUT   PBDATA
         
         ; Setup stack to top of mapped RAM
         LXI   H, 8200H       ; Stack top
@@ -53,13 +57,13 @@ START:
 ; Blink loop on PA
 ; ----------------------------
 LOOP:
-        MVI   A, 0FFH
+        MVI   A, 055H
         OUT   PADATA
         
         MVI   C, 255
         CALL DELAY
 
-        XRA A
+        MVI   A, 0AAH
         OUT   PADATA
         
         MVI   C, 255
@@ -67,6 +71,6 @@ LOOP:
 
         JMP   LOOP
         
-        INCL "../common/utils.asm"
+        include "../common/utils.asm"
 
         END

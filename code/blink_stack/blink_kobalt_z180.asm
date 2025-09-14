@@ -28,18 +28,22 @@ START:
         NOP
         
         ; ----------------------------
-        ; Init PIO Port A
+        ; Init IO Ports
         ; ----------------------------
-		; Set Port C to GPIO (parallel)
-;        MVI   A, 80H      ; SCR bit 7 = 1, other bits = 0
-;        OUT   SCR         ; Use definitions.asm to define SCR
+		; Set Port B to GPIO (parallel)
+        LD   A, 60H      ; SCR bit 7 = 0, bit 6 = 1, bit 5 = 1, other bits = 0
+        OUT   (SCR), A         ; Use definitions.asm to define SCR
         ; Configure all lines as outputs
-        LD   A, 00H
+        XOR A
         OUT   (PADIR), A            ; use label from definitions.asm
-
         ; Ensure all PA lines low
-        LD   A, 00H
+        XOR A
         OUT   (PADATA), A            ; use label from definitions.asm
+        
+        LD   A, 1FH                ; PB0..Pb4 inputs, PB5..PB7 outputs
+        OUT   (PBDIR), A
+        XOR A
+        OUT   (PBDATA), A
         
         ; Setup stack to top of mapped RAM
         LD   HL, 8200H       ; Stack top
@@ -53,13 +57,13 @@ START:
 ; Blink loop on PA
 ; ----------------------------
 LOOP:
-        LD   A, 0FFH
+        LD   A, 055H
         OUT   (PADATA), A
         
         LD   C, 255
         CALL DELAY
 
-        LD   A, 00H
+        LD   A, 0AAH
         OUT   (PADATA), A
         
         LD   C, 255

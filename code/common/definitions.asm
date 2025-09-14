@@ -65,6 +65,9 @@ ESCC_B_DATA         EQU     0E3H
 PADIR               EQU     0EDH
 PADATA              EQU     0EEH
 
+PBDIR               EQU     0E4H
+PBDATA              EQU     0E5H
+
 PCDIR               EQU     0DDH
 PCDATA              EQU     0DEH
 

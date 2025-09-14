@@ -35,20 +35,21 @@ START:
         ; ----------------------------
         ; Init PIO Port A
         ; ----------------------------
-		; Set Port C to GPIO (parallel)
-;        MVI   A, 80H      ; SCR bit 7 = 1, other bits = 0
-;        OUT   SCR         ; Use definitions.asm to define SCR
+		; Set Port B to GPIO (parallel)
+        MVI   A, 60H      ; SCR bit 7 = 0, bit 6 = 1, bit 5 = 1, other bits = 0
+        OUT   SCR         ; Use definitions.asm to define SCR
         ; Configure only all lines as outputs
         XRA A
         OUT   PADIR            ; use label from definitions.asm
-
         ; Ensure all PA lines high
         MVI   A, 0FFH
         OUT   PADATA            ; use label from definitions.asm
+        
+        MVI   A, 1FH                ; PB0..Pb4 inputs, PB5..PB7 outputs
+        OUT   PBDIR
+        XRA A
+        OUT   PBDATA
 
-; ----------------------------
-; Blink loop on PC5
-; ----------------------------
 LOOP:
         ; To check if we can actually store values in RAM
         LXI   H,8200h
