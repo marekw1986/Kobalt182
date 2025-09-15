@@ -1,4 +1,4 @@
-        INCL "../common/definitions.asm"
+        include "../common/definitions.asm"
 
         ORG   00000H
 START:
@@ -105,17 +105,17 @@ LOOP:
         MVI   A, 0FFH
         OUT   PADATA
         
-		MVI	  A, 255
+		MVI	  C, 255
 		CALL  DELAY
         
         XRA A
         OUT   PADATA
         
-        MVI   A, 255
+        MVI   C, 255
         CALL DELAY
 		
         JMP   LOOP
 
-		INCL "../common/utils.asm"
+		include "../common/utils.asm"
 
         END
