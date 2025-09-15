@@ -94,7 +94,7 @@ START:
 
         LD A, 0Eh           ; Select WR14 (BRG ESCC_A_CTRL)
         OUT0 (ESCC_A_CTRL), A
-        LD A, 03h           ; Enable BRG and set clock source
+        LD A, 01h           ; Enable BRG and set clock source (was 03h)
         OUT0 (ESCC_A_CTRL), A
 
 LOOP:
