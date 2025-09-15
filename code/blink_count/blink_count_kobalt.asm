@@ -46,7 +46,7 @@ START:
         OUT   PBDATA
         
         ; Setup stack to top of mapped RAM
-        LXI   H, 8200H       ; Stack top
+        LXI   H, 0FFDFH       ; Stack top
         SPHL
         
         NOP

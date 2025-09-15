@@ -46,8 +46,7 @@ START:
         OUT0  (PBDATA), A
         
         ; Setup stack to top of mapped RAM
-        LD   HL, 8200H       ; Stack top
-        LD   SP, HL
+        LD   SP, 0FFDFH       ; Stack top
         
         NOP
         NOP
