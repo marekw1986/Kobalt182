@@ -83,7 +83,7 @@ IE_REG              EQU     0FDH
 IVEC                EQU     0FCH        ; Interrupt vector
 
 ; CF REGS
-CFBASE              EQU     0E0H
+CFBASE              EQU     0A0H
 CFREG0              EQU     CFBASE+0	;DATA PORT
 CFREG1              EQU     CFBASE+1	;READ: ERROR CODE, WRITE: FEATURE
 CFREG2              EQU     CFBASE+2	;NUMBER OF SECTORS TO TRANSFER
