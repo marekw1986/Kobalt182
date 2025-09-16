@@ -30,11 +30,11 @@ ccp.asm bdos.asm:
 	sed -i '/.cpu	8080/d' ./ccp.asm
 	rm -rf ./cpm22
 	
-#ccp.p ccp.lst: ccp.asm
-#	asl -D origin=0dc00h -o ccp.p -L -OLIST ccp.lst ccp.asm -cpu 8080
+ccp.p ccp.lst: ccp.asm
+	asl -D origin=0dc00h -o ccp.p -L -OLIST ccp.lst ccp.asm -cpu 8080
 
-z80ccp.p z80ccp.lst: z80ccp.asm
-	asl -D origin=0dc00h -o z80ccp.p -L -OLIST z80ccp.lst z80ccp.asm -cpu 8080
+#z80ccp.p z80ccp.lst: z80ccp.asm
+#	asl -D origin=0dc00h -o z80ccp.p -L -OLIST z80ccp.lst z80ccp.asm -cpu 8080
 
 bdos.p bdos.lst: bdos.asm
 	asl -D origin=0e406h -o bdos.p -L -OLIST bdos.lst bdos.asm -cpu 8080
@@ -42,8 +42,8 @@ bdos.p bdos.lst: bdos.asm
 bios_z180.p bios_z180.lst: bios_z180.asm
 	asl -o bios_z180.p -L -OLIST bios_z180.lst bios_z180.asm -cpu z180
 	
-cpm22.bin: z80ccp.p bdos.p bios_z180.p
-	p2bin -l '$$00' z80ccp.p bdos.p bios_z180.p cpm22.bin
+cpm22.bin: ccp.p bdos.p bios_z180.p
+	p2bin -l '$$00' ccp.p bdos.p bios_z180.p cpm22.bin
 
 clean:
 	rm -f *.p *.bin *.lst *.img
