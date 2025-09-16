@@ -1,32 +1,29 @@
 CFINIT:
 		XOR A
 		LD (CFLBA3), A
-		XOR A
 		LD (CFLBA2), A
-		XOR A
 		LD (CFLBA1), A
-		XOR A
 		LD (CFLBA0), A
         LD A, 04H
-        OUT (CFREG7), A
+        OUT0 (CFREG7), A
         CALL CFWAIT_TMOUT
         LD A, 0E0H		                ;LBA3=0, MASTER, MODE=LBA
-        OUT	(CFREG6), A
+        OUT0 (CFREG6), A
         LD A, 01H		                ;8-BIT TRANSFERS
-        OUT (CFREG1), A
+        OUT0 (CFREG1), A
         LD A, 0EFH		                ;SET FEATURE COMMAND
-        OUT (CFREG7), A
+        OUT0 (CFREG7), A
         CALL CFWAIT_TMOUT
         OR A							;Check if wait loop timeouted
-        JP NZ, CFINIT_RET					;If so there is no point in checking error code
+        JR NZ, CFINIT_RET					;If so there is no point in checking error code
         CALL CFCHERR
 CFINIT_RET
         RET
 
 CFWAIT:
-        IN A, (CFREG7)
+        IN0 A, (CFREG7)
         AND 80H                         ;MASK OUT BUSY FLAG
-        JP NZ, CFWAIT
+        JR NZ, CFWAIT
         RET
         
 CFWAIT_TMOUT:
@@ -34,11 +31,11 @@ CFWAIT_TMOUT:
 CFWAIT_TMOUT_LOOP_EXT:
 		LD B, 255
 CFWAIT_TMOUT_LOOP_INT:
-        IN A, (CFREG7)
+        IN0 A, (CFREG7)
         AND 80H                  		;MASK OUT BUSY FLAG
-        JP Z, CFWAIT_TMOUT_OK
+        JR Z, CFWAIT_TMOUT_OK
         DEC B
-        JP NZ, CFWAIT_TMOUT_LOOP_INT
+        JR NZ, CFWAIT_TMOUT_LOOP_INT
         DEC C
         JP Z, CFWAIT_TMOUT_NOK
         JP CFWAIT_TMOUT_LOOP_EXT
@@ -50,10 +47,10 @@ CFWAIT_TMOUT_NOK:
 		RET
 
 CFCHERR:	
-        IN A, (CFREG7)
+        IN0 A, (CFREG7)
         AND	01H		                    ;MASK OUT ERROR BIT
-        JP Z, CFNERR
-        IN	A, (CFREG1)
+        JR Z, CFNERR
+        IN0	A, (CFREG1)
 		RET
 CFNERR:
 		XOR A
@@ -61,55 +58,55 @@ CFNERR:
             
 CFREAD:
         CALL CFWAIT
-        IN A, (CFREG7)
+        IN0 A, (CFREG7)
         AND	08H	                    ;FILTER OUT DRQ
-        JP Z, CFREADE
-        IN A, (CFREG0)		            ;READ DATA BYTE
+        JR Z, CFREADE
+        IN0 A, (CFREG0)		            ;READ DATA BYTE
         LD (DE), A
         INC DE
-        JP	CFREAD
+        JR	CFREAD
 CFREADE:
         RET
         
 CFWRITE:
         CALL CFWAIT
-        IN A, (CFREG7)
+        IN0 A, (CFREG7)
         AND 08H                     ;FILTER OUT DRQ
-        JP Z, CFWRITEE
+        JR Z, CFWRITEE
         LD A, (DE)
-        OUT (CFREG0), A
+        OUT0 (CFREG0), A
         INC DE
-        JP CFWRITE
+        JR CFWRITE
 CFWRITEE:
         RET
         
 CFSLBA:
         LD A, (CFLBA0)		                ;LBA 0
-        OUT (CFREG3), A
+        OUT0 (CFREG3), A
         LD A, (CFLBA1)		                ;LBA 1
-        OUT (CFREG4), A
+        OUT0 (CFREG4), A
         LD A, (CFLBA2)		                ;LBA 2
-        OUT (CFREG5), A	
+        OUT0 (CFREG5), A	
         LD A, (CFLBA3)		                ;LBA 3
         AND 0FH	                        ;FILTER OUT LBA BITS
         OR 0E0H	                    ;MODE LBA, MASTER DEV
-        OUT (CFREG6), A
+        OUT0 (CFREG6), A
         RET
         
 CFGETMBR:
 		XOR A
-		OUT (CFREG3), A						;LBA 0
-		OUT (CFREG4), A						;LBA 1
-		OUT (CFREG5), A						;LBA 2
+		OUT0 (CFREG3), A						;LBA 0
+		OUT0 (CFREG4), A						;LBA 1
+		OUT0 (CFREG5), A						;LBA 2
 		;AND 0FH	                        ;FILTER OUT LBA BITS
 		;OR 0E0H	                    ;MODE LBA, MASTER DEV
 		LD A, 0E0H
-        OUT (CFREG6), A
+        OUT0 (CFREG6), A
         LD A, 01H
-        OUT	(CFREG2), A						;READ ONE SECTOR
+        OUT0	(CFREG2), A						;READ ONE SECTOR
 		CALL CFWAIT
 		LD A, 20H						;READ SECTOR COMMAND
-		OUT	(CFREG7), A
+		OUT0	(CFREG7), A
 		LD DE, LOAD_BASE
 		CALL CFREAD
 		CALL CFCHERR
@@ -118,7 +115,7 @@ CFGETMBR:
 CFINFO:	
         CALL CFWAIT
         LD	A, 0ECH	                    ;DRIVE ID COMMAND
-        OUT	(CFREG7), A
+        OUT0	(CFREG7), A
         LD DE, LOAD_BASE
         CALL CFREAD
         LD DE, LOAD_BASE+54
@@ -136,10 +133,10 @@ CFINFO:
 CFRSECT:
 		CALL CFSLBA						;SET LBA
 		LD A, 01H
-		OUT	(CFREG2), A						;READ ONE SECTOR
+		OUT0 (CFREG2), A						;READ ONE SECTOR
 		CALL CFWAIT
 		LD A, 20H						;READ SECTOR COMMAND
-		OUT	(CFREG7), A
+		OUT0 (CFREG7), A
 		;LD	DE, LOAD_BASE
 		CALL CFREAD
 		CALL CFCHERR
@@ -148,10 +145,10 @@ CFRSECT:
 CFR32SECTORS:
 		CALL CFSLBA
 		LD A, 20H						;Read 32 sectors
-		OUT (CFREG2), A
+		OUT0 (CFREG2), A
 		CALL CFWAIT
 		LD A, 20H
-		OUT (CFREG7), A
+		OUT0 (CFREG7), A
 		LD DE, LOAD_BASE
 		CALL CFREAD
 		CALL CFCHERR
@@ -160,10 +157,10 @@ CFR32SECTORS:
 CFWSECT:
         CALL CFSLBA                     ;SET LBA
         LD A, 01H
-        OUT (CFREG2), A                      ;WRITE ONE SECTOR
+        OUT0 (CFREG2), A                      ;WRITE ONE SECTOR
         CALL CFWAIT
         LD A, 30H                      ;WRITE SECTOR COMMAND
-        OUT (CFREG7), A
+        OUT0 (CFREG7), A
         LD DE, LOAD_BASE
         CALL CFWRITE
         CALL CFCHERR
@@ -244,24 +241,24 @@ PRN_PARTITION_TABLE:
 LOAD_PARTITION1:
 		LD DE, LOAD_BASE+446+8
 		LD A, (DE)
-		OUT (CFREG3), A						;LBA 0
+		OUT0 (CFREG3), A						;LBA 0
 		INC DE
 		LD A, (DE)
-		OUT (CFREG4), A						;LBA 1
+		OUT0 (CFREG4), A						;LBA 1
 		INC DE
 		LD A, (DE)
-		OUT (CFREG5), A						;LBA 2
+		OUT0 (CFREG5), A						;LBA 2
 		INC DE
 		LD A, (DE)
 		AND 0FH							;FILTER OUT LBA BITS
 		OR 0E0H						;MODE LBA, MASTER DEV
-		OUT (CFREG6), A						;LBA 3
+		OUT0 (CFREG6), A						;LBA 3
 		; LD A, 01H					;READ ONE SECTOR
 		LD A, 17						;READ 17 SECTORS (13kB-512 bytes to preserve stack)
-		OUT	(CFREG2), A						
+		OUT0 (CFREG2), A						
 		CALL CFWAIT
 		LD A, 20H						;READ SECTOR COMMAND
-		OUT	(CFREG7), A
+		OUT0 (CFREG7), A
 		LD DE, LOAD_BASE
 		CALL CFREAD
 		CALL CFCHERR

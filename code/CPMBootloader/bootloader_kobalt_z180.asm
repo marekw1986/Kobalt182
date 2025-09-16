@@ -9,7 +9,7 @@ START:  LD   SP, STACK                   ;*** COLD START ***
         JP  INIT
 
 
-		include "../common/cf_z80.asm"
+		include "../common/cf_z180.asm"
 		;include "keyboard.asm"
 		include "../common/utils_z180.asm"
 		include "../common/hexdump_z80.asm"

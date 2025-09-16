@@ -617,8 +617,8 @@ PRINT_COLON:
 		RET
 	ENDIF
 
-        include "cf_z80.asm"
-        include "utils_z80.asm"
+        include "cf_z180.asm"
+        include "utils_z180.asm"
         include "../common/definitions.asm"
         include "../common/hexdump_z80.asm"
 	

@@ -12,16 +12,16 @@ PCFLBA1	    DS	 1
 PCFLBA0	    DS	 1
 
 CFWAIT:
-        IN A, (CFREG7)
+        IN0 A, (CFREG7)
         AND 80H                         ;MASK OUT BUSY FLAG
         JP NZ, CFWAIT
         RET
         
 CFCHERR:	
-        IN A, (CFREG7)
+        IN0 A, (CFREG7)
         AND	01H		                    ;MASK OUT ERROR BIT
-        JP Z, CFNERR
-        IN	A, (CFREG1)
+        JR Z, CFNERR
+        IN0	A, (CFREG1)
 		RET
 CFNERR:
 		XOR A
@@ -29,39 +29,39 @@ CFNERR:
             
 CFREAD:
         CALL CFWAIT
-        IN A, (CFREG7)
+        IN0 A, (CFREG7)
         AND	08H	                    ;FILTER OUT DRQ
-        JP Z, CFREADE
-        IN A, (CFREG0)		            ;READ DATA BYTE
+        JR Z, CFREADE
+        IN0 A, (CFREG0)		            ;READ DATA BYTE
         LD (DE), A
         INC DE
-        JP	CFREAD
+        JR	CFREAD
 CFREADE:
         RET
         
 CFWRITE:
         CALL CFWAIT
-        IN A, (CFREG7)
+        IN0 A, (CFREG7)
         AND 08H                     ;FILTER OUT DRQ
-        JP Z, CFWRITEE
+        JR Z, CFWRITEE
         LD A, (DE)
-        OUT (CFREG0), A
+        OUT0 (CFREG0), A
         INC DE
-        JP CFWRITE
+        JR CFWRITE
 CFWRITEE:
         RET
         
 CFSLBA:
         LD A, (CFLBA0)		                ;LBA 0
-        OUT (CFREG3), A
+        OUT0 (CFREG3), A
         LD A, (CFLBA1)		                ;LBA 1
-        OUT (CFREG4), A
+        OUT0 (CFREG4), A
         LD A, (CFLBA2)		                ;LBA 2
-        OUT (CFREG5), A	
+        OUT0 (CFREG5), A	
         LD A, (CFLBA3)		                ;LBA 3
         AND 0FH	                        ;FILTER OUT LBA BITS
         OR 0E0H	                    ;MODE LBA, MASTER DEV
-        OUT (CFREG6), A
+        OUT0 (CFREG6), A
         RET
 
 ; Reads single sector
@@ -70,7 +70,7 @@ CFSLBA:
 CFRSECT:
 		CALL CFSLBA						;SET LBA
 		LD A, 01H
-		OUT	(CFREG2), A						;READ ONE SECTOR
+		OUT0	(CFREG2), A						;READ ONE SECTOR
 		CALL CFWAIT
 		LD A, 20H						;READ SECTOR COMMAND
 		OUT	(CFREG7), A
@@ -84,19 +84,19 @@ CFRSECT:
 CFRSECT_WITH_CACHE:
 		LD A, (CFVAL)						; Check if we have valid data in buffer
 		OR A
-		JP Z, CFRSECT_WITH_CACHE_PERFORM  ; If not, read
+		JR Z, CFRSECT_WITH_CACHE_PERFORM  ; If not, read
 		LD HL, CFLBA3					; Check if old and new LBA values are equal
 		LD DE, PCFLBA3
 		CALL IS32BIT_EQUAL
 		OR A							; If not, new LBA. Read imediately
-		JP Z, CFRSECT_WITH_CACHE_PERFORM
+		JR Z, CFRSECT_WITH_CACHE_PERFORM
 		; We already have valid data in buffer. No need to read it again
 		XOR A						; Store 0 in A to signalize no err
 		RET
 CFRSECT_WITH_CACHE_PERFORM:
 		CALL CFSLBA						;SET LBA
 		LD A, 01H
-		OUT	(CFREG2), A						;READ ONE SECTOR
+		OUT0	(CFREG2), A						;READ ONE SECTOR
 		CALL CFWAIT
 		LD A, 20H						;READ SECTOR COMMAND
 		OUT	(CFREG7), A
@@ -104,7 +104,7 @@ CFRSECT_WITH_CACHE_PERFORM:
 		CALL CFREAD
 		CALL CFCHERR
 		OR A							; If A=0, no error, good read
-		JP NZ, CFRSECT_WITH_CACHE_BAD
+		JR NZ, CFRSECT_WITH_CACHE_BAD
 		PUSH AF
 		LD A, 01H
 		LD (CFVAL), A
@@ -122,25 +122,25 @@ CFRSECT_WITH_CACHE_BAD:
 CFWSECT:
         CALL CFSLBA                     ;SET LBA
         LD A, 01H
-        OUT (CFREG2), A                      ;WRITE ONE SECTOR
+        OUT0 (CFREG2), A                      ;WRITE ONE SECTOR
         CALL CFWAIT
         LD A, 30H                      ;WRITE SECTOR COMMAND
-        OUT (CFREG7), A
+        OUT0 (CFREG7), A
         CALL CFWRITE
         CALL CFCHERR
         RET
 
 CFGETMBR:
 		XOR A
-		OUT (CFREG3), A						;LBA 0
-		OUT (CFREG4), A						;LBA 1
-		OUT (CFREG5), A						;LBA 2
+		OUT0 (CFREG3), A						;LBA 0
+		OUT0 (CFREG4), A						;LBA 1
+		OUT0 (CFREG5), A						;LBA 2
 		;AND 0FH	                        ;FILTER OUT LBA BITS
 		;OR 0E0H	                    ;MODE LBA, MASTER DEV
 		LD A, 0E0H
         OUT (CFREG6), A
         LD A, 01H
-        OUT	(CFREG2), A						;READ ONE SECTOR
+        OUT0 (CFREG2), A						;READ ONE SECTOR
 		CALL CFWAIT
 		LD A, 20H						;READ SECTOR COMMAND
 		OUT	(CFREG7), A
