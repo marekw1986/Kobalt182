@@ -18,9 +18,6 @@ prepare_files:
 	git clone https://github.com/Z80-Retro/cpm-2.2.git
 	mv ./cpm-2.2/filesystem ./
 	rm -rf ./cpm-2.2
-
-#boot.p boot.lst: boot.asm
-#	asl -o boot.p -L -OLIST boot.lst boot.asm -cpu 8080
 	
 ccp.asm bdos.asm:
 	git clone https://github.com/brouhaha/cpm22.git

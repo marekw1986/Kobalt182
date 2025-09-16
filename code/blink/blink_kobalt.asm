@@ -1,5 +1,4 @@
         INCL "../common/definitions.asm"
-        INCL "../common/utils.asm"
 
         ORG   0000H
 START:  
