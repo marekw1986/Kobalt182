@@ -56,45 +56,105 @@ START:
         NOP
 
 ; --- Reset channel A ---
-        LD A, 09h           ; WR9 (Reset and interrupt ESCC_A_CTRL)
-        OUT0 (ESCC_A_CTRL), A
-        LD A, 0C0h          ; Reset Channel A + Tx underrun
-        OUT0 (ESCC_A_CTRL), A
+;        LD A, 09h           ; WR9 (Reset and interrupt ESCC_A_CTRL)
+;        OUT0 (ESCC_A_CTRL), A
+;        LD A, 0C0h          ; Reset Channel A + Tx underrun
+;        OUT0 (ESCC_A_CTRL), A
 
 ; --- Async mode (8N1) ---
         LD A, 04h           ; Select WR4
         OUT0 (ESCC_A_CTRL), A
         LD A, 44h          ; 16× clock, 1 stop bit, 8 bits, async
         OUT0 (ESCC_A_CTRL), A
+        
+; --- Parity is a special condition ---
+;        LD A, 01H
+;        OUT0 (ESCC_A_CTRL), A
+;        LD A, 04H
+;        OUT0 (ESCC_A_CTRL), A
 
-; --- Disable Rx (clear receiver parameters) ---
-        LD A, 03h           ; Select WR3
+; --- RX 8 bits/char ---
+        LD A, 03H           ; Select WR3
         OUT0 (ESCC_A_CTRL), A
-        XOR A           ; Rx disabled
-        ;LD	A, 01h		   ; Rx enabled
+        LD	A, 0C0H
         OUT0 (ESCC_A_CTRL), A
 
-; --- Enable Tx (and RTS) ---
-        LD A, 05h           ; Select WR5
+; --- TX 8 bits/char ---
+        LD A, 05H           ; Select WR5
         OUT0 (ESCC_A_CTRL), A
-        LD A, 0EAh          ; Tx enable, RTS, DTR 8-bit — 1110 1010b
+        LD A, 60H
+        OUT0 (ESCC_A_CTRL), A
+        
+; --- Status affects int. vector ---
+;        LD A, 09H           ; Select WR5
+;        OUT0 (ESCC_A_CTRL), A
+;        LD A, 01H
+;        OUT0 (ESCC_A_CTRL), A        
+
+; --- RX & TX <- BRG, RTxC <- BRG ---        
+        LD A, 0BH           ; Select WR11
+        OUT0 (ESCC_A_CTRL), A
+        LD A, 56H
         OUT0 (ESCC_A_CTRL), A
 
 ; --- Baud rate generator (BRG) setup ---
         ; Divisor ≈ 651 for 9600 baud @ 12.5 MHz clock
-        LD A, 0Ch           ; Select WR12 (BRG low byte)
+        LD A, 0CH           ; Select WR12 (BRG low byte)
         OUT0 (ESCC_A_CTRL), A
-        LD A, 08Bh          ; Low byte = 0x8B (139)
-        OUT0 (ESCC_A_CTRL), A
-
-        LD A, 0Dh           ; Select WR13 (BRG high byte)
-        OUT0 (ESCC_A_CTRL), A
-        LD A, 02h           ; High byte = 0x02 (2)
+        LD A, 27H          ; Low byte = 0x8B (139)
         OUT0 (ESCC_A_CTRL), A
 
-        LD A, 0Eh           ; Select WR14 (BRG ESCC_A_CTRL)
+        LD A, 0DH           ; Select WR13 (BRG high byte)
         OUT0 (ESCC_A_CTRL), A
-        LD A, 01h           ; Enable BRG and set clock source (was 03h)
+        XOR A               ; High byte =0 (2)
+        OUT0 (ESCC_A_CTRL), A
+        
+; --- BRG source (internal) DPLL off ---  
+        LD A, 0EH           ; Select WR14 (BRG ESCC_A_CTRL)
+        OUT0 (ESCC_A_CTRL), A
+        LD A, 62H
+        OUT0 (ESCC_A_CTRL), A
+        
+; --- BRG enabled ---  
+        LD A, 0EH           ; Select WR14 (BRG ESCC_A_CTRL)
+        OUT0 (ESCC_A_CTRL), A
+        LD A, 03H
+        OUT0 (ESCC_A_CTRL), A
+        
+; --- Enable ints. here, if reqd. --- 
+;        LD A, 01H           ; Select WR1 (BRG ESCC_A_CTRL)
+;        OUT0 (ESCC_A_CTRL), A
+;        LD A, 04H
+;        OUT0 (ESCC_A_CTRL), A
+
+; --- No "advanced" features ---  
+        LD A, 0FH           ; Select WR15 (BRG ESCC_A_CTRL)
+        OUT0 (ESCC_A_CTRL), A
+        XOR A               ; A = 0
+        OUT0 (ESCC_A_CTRL), A
+        
+; --- No "advanced" features ---  
+        XOR A           ; Select WR0 (BRG ESCC_A_CTRL)
+        OUT0 (ESCC_A_CTRL), A
+        LD A, 10H
+        OUT0 (ESCC_A_CTRL), A
+        
+; --- Repeat, to be sure of it ---  
+        XOR A           ; Select WR0 (BRG ESCC_A_CTRL)
+        OUT0 (ESCC_A_CTRL), A
+        LD A, 10H
+        OUT0 (ESCC_A_CTRL), A
+        
+; --- RX enabled ---  
+        LD A, 03H           ; Select WR3 (BRG ESCC_A_CTRL)
+        OUT0 (ESCC_A_CTRL), A
+        LD A, 0C1H
+        OUT0 (ESCC_A_CTRL), A
+        
+; --- TX enabled, RTS active ---
+        LD A, 05H           ; Select WR5
+        OUT0 (ESCC_A_CTRL), A
+        LD A, 6AH
         OUT0 (ESCC_A_CTRL), A
 
 LOOP:
