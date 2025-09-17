@@ -10949,8 +10949,8 @@ Source: VISHAY .. vta56.pdf</description>
 <wire x1="-12.6225" y1="-4.65" x2="12.6225" y2="-4.65" width="0.1524" layer="21"/>
 <wire x1="12.6225" y1="-4.65" x2="12.6225" y2="0.025" width="0.1524" layer="21"/>
 <wire x1="13.97" y1="0" x2="15.24" y2="0" width="0.6096" layer="51"/>
-<pad name="1" x="-15.24" y="0" drill="1.1" diameter="2.032" shape="octagon"/>
-<pad name="2" x="15.24" y="0" drill="1.1" diameter="2.032" shape="octagon"/>
+<pad name="1" x="-15.24" y="0" drill="1.1" shape="octagon"/>
+<pad name="2" x="15.24" y="0" drill="1.1" shape="octagon"/>
 <text x="-3.81" y="5.08" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-3.175" y="-0.635" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
 <rectangle x1="-13.97" y1="-0.3048" x2="-12.5675" y2="0.3048" layer="21"/>
@@ -22524,6 +22524,8 @@ SOurce: www.abracon.com</description>
 <part name="R19" library="rcl" deviceset="R-EU_" device="R0603"/>
 <part name="R20" library="rcl" deviceset="R-EU_" device="R0603"/>
 <part name="R21" library="rcl" deviceset="R-EU_" device="R0603"/>
+<part name="R22" library="rcl" deviceset="R-EU_" device="R0402"/>
+<part name="R23" library="rcl" deviceset="R-EU_" device="R0402"/>
 </parts>
 <sheets>
 <sheet>
@@ -22654,6 +22656,8 @@ SOurce: www.abracon.com</description>
 <instance part="R19" gate="G$1" x="353.06" y="210.82" rot="R90"/>
 <instance part="R20" gate="G$1" x="358.14" y="210.82" rot="R90"/>
 <instance part="R21" gate="G$1" x="355.6" y="241.3" rot="R90"/>
+<instance part="R22" gate="G$1" x="426.72" y="226.06"/>
+<instance part="R23" gate="G$1" x="426.72" y="233.68"/>
 </instances>
 <busses>
 </busses>
@@ -23335,6 +23339,7 @@ SOurce: www.abracon.com</description>
 <wire x1="347.98" y1="248.92" x2="355.6" y2="248.92" width="0.1524" layer="91"/>
 <wire x1="355.6" y1="248.92" x2="355.6" y2="246.38" width="0.1524" layer="91"/>
 <junction x="347.98" y="248.92"/>
+<label x="347.98" y="251.46" size="1.4224" layer="95" rot="R90" xref="yes"/>
 </segment>
 </net>
 <net name="TXD1" class="0">
@@ -25140,9 +25145,9 @@ SOurce: www.abracon.com</description>
 </net>
 <net name="BUSY_OUT" class="0">
 <segment>
-<pinref part="IC8" gate="A" pin="B7"/>
-<wire x1="393.7" y1="226.06" x2="401.32" y2="226.06" width="0.1524" layer="91"/>
-<label x="401.32" y="226.06" size="1.4224" layer="95" xref="yes"/>
+<label x="439.42" y="226.06" size="1.4224" layer="95" xref="yes"/>
+<pinref part="R22" gate="G$1" pin="2"/>
+<wire x1="431.8" y1="226.06" x2="439.42" y2="226.06" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="TXA0/PB3"/>
@@ -25176,9 +25181,9 @@ SOurce: www.abracon.com</description>
 </net>
 <net name="/ERR_OUT" class="0">
 <segment>
-<wire x1="393.7" y1="233.68" x2="401.32" y2="233.68" width="0.1524" layer="91"/>
-<pinref part="IC8" gate="A" pin="B4"/>
-<label x="401.32" y="233.68" size="1.4224" layer="95" xref="yes"/>
+<label x="439.42" y="233.68" size="1.4224" layer="95" xref="yes"/>
+<pinref part="R23" gate="G$1" pin="2"/>
+<wire x1="431.8" y1="233.68" x2="439.42" y2="233.68" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="/RTS0/PB0"/>
@@ -25227,6 +25232,20 @@ SOurce: www.abracon.com</description>
 <pinref part="IC4" gate="A" pin="Y7"/>
 <wire x1="-190.5" y1="5.08" x2="-185.42" y2="5.08" width="0.1524" layer="91"/>
 <label x="-185.42" y="5.08" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="N$46" class="0">
+<segment>
+<pinref part="R22" gate="G$1" pin="1"/>
+<pinref part="IC8" gate="A" pin="B7"/>
+<wire x1="393.7" y1="226.06" x2="421.64" y2="226.06" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$47" class="0">
+<segment>
+<pinref part="R23" gate="G$1" pin="1"/>
+<pinref part="IC8" gate="A" pin="B4"/>
+<wire x1="393.7" y1="233.68" x2="421.64" y2="233.68" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
