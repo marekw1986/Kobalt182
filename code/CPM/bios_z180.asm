@@ -311,6 +311,7 @@ BIOS_WRITE_PROC:
         CALL CALC_CFLBA_FROM_PART_ADR
         OR A         ; If A=0, no valid LBA calculated
         JR Z, BIOS_WRITE_RET_ERR ; Return and report error
+        CALL CFUPDPLBA
 		CALL CFRSECT_WITH_CACHE
 		OR A
 		JR NZ, BIOS_WRITE_RET_ERR			; If we ae unable to read sector, it ends here. We would risk FS crash otherwise.
@@ -326,7 +327,6 @@ BIOS_WRITE_PROC:
 		LD BC, 0080H	; How many bytes to copy?
 		LDIR
         ;No actual write, just deffer
-        CALL CFUPDPLBA
         LD A, 1
         LD (DEFERREDWR), A  ; We deffer write
         LD (CFVAL), A       ; There are valid data in buffer
