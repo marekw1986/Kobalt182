@@ -81,6 +81,7 @@ CFVAR_INIT:
 		LD (PCFLBA1), A
 		LD (PCFLBA0), A
 		LD (CFVAL), A
+        LD (DEFERREDWR), A
 		CALL IPUTS
 		DB 'Running CP/M 2.2'
 		DB CR
@@ -303,7 +304,38 @@ BIOS_WRITE_PROC:
         LD A, C
         CP 2               ; Is it first sector of new track?
         JR Z, BIOS_WRITE_NEW_TRACK
-		; First read sector to have complete data in buffer
+        CP 1
+        JR Z, BIOS_WRITE_IMMEDIATELY
+        ; Assume C = 0, write can be deffered
+        ; First read sector to have complete data in buffer
+        CALL CALC_CFLBA_FROM_PART_ADR
+        OR A         ; If A=0, no valid LBA calculated
+        JR Z, BIOS_WRITE_RET_ERR ; Return and report error
+		CALL CFRSECT_WITH_CACHE
+		OR A
+		JR NZ, BIOS_WRITE_RET_ERR			; If we ae unable to read sector, it ends here. We would risk FS crash otherwise.
+		CALL BIOS_CALC_SECT_IN_BUFFER
+		; Now DE contains the 16-bit result of multiplying the original value by 128
+		; D holds the high byte and E holds the low byte of the result
+		; Calculate the address of the CP/M sector in the BLKDAT
+		LD HL, BLKDAT
+		ADD HL, DE
+        EX HL, DE
+		; Addres of sector in BLKDAT is now in DE
+		LD HL, (DISK_DMA)	; Load source address to HL
+		LD BC, 0080H	; How many bytes to copy?
+		LDIR
+        ;No actual write, just deffer
+        CALL CFUPDPLBA
+        LD A, 1
+        LD (DEFERREDWR), A  ; We deffer write
+        LD (CFVAL), A       ; There are valid data in buffer
+        JR BIOS_WRITE_RET_OK                  
+BIOS_WRITE_IMMEDIATELY:
+        ; First read sector to have complete data in buffer
+        CALL CALC_CFLBA_FROM_PART_ADR
+        OR A         ; If A=0, no valid LBA calculated
+        JR Z, BIOS_WRITE_RET_ERR ; Return and report error
 		CALL CFRSECT_WITH_CACHE
 		OR A
 		JR NZ, BIOS_WRITE_RET_ERR			; If we ae unable to read sector, it ends here. We would risk FS crash otherwise.
@@ -325,8 +357,21 @@ BIOS_WRITE_NEW_TRACK
         LD DE, BLKDAT+128+1
         LD BC, 384-1
         LDIR
-
         LD DE, BLKDAT
+ 		; Addres of sector in BLKDAT is now in DE
+		LD HL, (DISK_DMA)	; Load source address to HL
+		; Replace HL and DE. HL will now contain address od sector in BLKDAT and DE will store source from DISK_DMA
+		LD BC, 0080H	; How many bytes to copy?
+		LDIR
+		; Buffer is updated with new sector data. Perform write.
+        CALL CALC_CFLBA_FROM_PART_ADR
+        OR A         ; If A=0, no valid LBA calculated
+        JR Z, BIOS_WRITE_RET_ERR ; Return and report error
+        CALL CFUPDPLBA
+        LD A, 1
+        LD (DEFERREDWR), A  ; We deffer write
+        LD (CFVAL), A       ; There are valid data in buffer
+        JR BIOS_WRITE_RET_OK        
 BIOS_WRITE_PERFORM:
 		; Addres of sector in BLKDAT is now in DE
 		LD HL, (DISK_DMA)	; Load source address to HL
