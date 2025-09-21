@@ -346,12 +346,22 @@ BIOS_WRITE_IMMEDIATELY:
 		LD HL, BLKDAT
 		ADD HL, DE
         EX HL, DE
-        JR BIOS_WRITE_PERFORM
+		; Addres of sector in BLKDAT is now in DE
+		LD HL, (DISK_DMA)	; Load source address to HL
+		; Replace HL and DE. HL will now contain address od sector in BLKDAT and DE will store source from DISK_DMA
+		LD BC, 0080H	; How many bytes to copy?
+		LDIR
+		; Buffer is updated with new sector data. Perform write.
+		LD DE, BLKDAT
+		CALL CFWSECT
+		OR A			; Check result
+		JR NZ, BIOS_WRITE_RET_ERR
+		JR BIOS_WRITE_RET_OK	
+BIOS_WRITE_NEW_TRACK
         ; No need to calculate sector location in BLKDAT.
         ; Thanks to deblocking code = 2 we know it is first secor of new track
         ; Just fill remaining bytes of buffer with 0xE5 and copy secotr to the
         ; beginning of BLKDAT. Then write.
-BIOS_WRITE_NEW_TRACK
         LD HL, BLKDAT+128
         LD (HL), 0E5H
         LD DE, BLKDAT+128+1
@@ -360,7 +370,6 @@ BIOS_WRITE_NEW_TRACK
         LD DE, BLKDAT
  		; Addres of sector in BLKDAT is now in DE
 		LD HL, (DISK_DMA)	; Load source address to HL
-		; Replace HL and DE. HL will now contain address od sector in BLKDAT and DE will store source from DISK_DMA
 		LD BC, 0080H	; How many bytes to copy?
 		LDIR
 		; Buffer is updated with new sector data. Perform write.
@@ -372,21 +381,6 @@ BIOS_WRITE_NEW_TRACK
         LD (DEFERREDWR), A  ; We deffer write
         LD (CFVAL), A       ; There are valid data in buffer
         JR BIOS_WRITE_RET_OK        
-BIOS_WRITE_PERFORM:
-		; Addres of sector in BLKDAT is now in DE
-		LD HL, (DISK_DMA)	; Load source address to HL
-		; Replace HL and DE. HL will now contain address od sector in BLKDAT and DE will store source from DISK_DMA
-		LD BC, 0080H	; How many bytes to copy?
-		LDIR
-		; Buffer is updated with new sector data. Perform write.
-        CALL CALC_CFLBA_FROM_PART_ADR
-        OR A         ; If A=0, no valid LBA calculated
-        JR Z, BIOS_WRITE_RET_ERR ; Return and report error
-		LD DE, BLKDAT
-		CALL CFWSECT
-		OR A			; Check result
-		JR NZ, BIOS_WRITE_RET_ERR
-		JR BIOS_WRITE_RET_OK				
 BIOS_WRITE_RET_ERR:
         XOR A
         LD (CFVAL), A
