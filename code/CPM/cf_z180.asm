@@ -15,7 +15,7 @@ DEFERREDWR  DS   1
 CFWAIT:
         IN0 A, (CFREG7)
         AND 80H                         ;MASK OUT BUSY FLAG
-        JP NZ, CFWAIT
+        JR NZ, CFWAIT
         RET
         
 CFCHERR:	
