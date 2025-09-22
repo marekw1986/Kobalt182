@@ -329,7 +329,6 @@ BIOS_WRITE_PROC:
         ;No actual write, just deffer
         LD A, 1
         LD (DEFERREDWR), A  ; We deffer write
-        LD (CFVAL), A       ; There are valid data in buffer
         JR BIOS_WRITE_RET_OK                  
 BIOS_WRITE_IMMEDIATELY:
         ; First read sector to have complete data in buffer
@@ -379,7 +378,6 @@ BIOS_WRITE_NEW_TRACK
         CALL CFUPDPLBA
         LD A, 1
         LD (DEFERREDWR), A  ; We deffer write
-        LD (CFVAL), A       ; There are valid data in buffer
         JR BIOS_WRITE_RET_OK        
 BIOS_WRITE_RET_ERR:
         XOR A
