@@ -310,7 +310,7 @@ BIOS_WRITE_PROC:
         ; First read sector to have complete data in buffer
         CALL CALC_CFLBA_FROM_PART_ADR
         OR A         ; If A=0, no valid LBA calculated
-        JR Z, BIOS_WRITE_RET_ERR ; Return and report error
+        JR Z, BIOS_WRITE_FLUSH_DEFFERED_AND_ERR ; Flush deffered, return and report error
         CALL CFUPDPLBA
 		CALL CFRSECT_WITH_CACHE
 		OR A
@@ -334,7 +334,7 @@ BIOS_WRITE_IMMEDIATELY:
         ; First read sector to have complete data in buffer
         CALL CALC_CFLBA_FROM_PART_ADR
         OR A         ; If A=0, no valid LBA calculated
-        JR Z, BIOS_WRITE_RET_ERR ; Return and report error
+        JR Z, BIOS_WRITE_FLUSH_DEFFERED_AND_ERR ; Flush deffered, return and report error
 		CALL CFRSECT_WITH_CACHE
 		OR A
 		JR NZ, BIOS_WRITE_RET_ERR			; If we ae unable to read sector, it ends here. We would risk FS crash otherwise.
@@ -374,11 +374,13 @@ BIOS_WRITE_NEW_TRACK
 		; Buffer is updated with new sector data. Perform write.
         CALL CALC_CFLBA_FROM_PART_ADR
         OR A         ; If A=0, no valid LBA calculated
-        JR Z, BIOS_WRITE_RET_ERR ; Return and report error
+        JR Z, BIOS_WRITE_FLUSH_DEFFERED_AND_ERR ; Flush deffered, return and report error
         CALL CFUPDPLBA
         LD A, 1
         LD (DEFERREDWR), A  ; We deffer write
-        JR BIOS_WRITE_RET_OK        
+        JR BIOS_WRITE_RET_OK     
+BIOS_WRITE_FLUSH_DEFFERED_AND_ERR:
+        CALL CFFLUSHDEFFERED
 BIOS_WRITE_RET_ERR:
         XOR A
         LD (CFVAL), A

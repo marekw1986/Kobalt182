@@ -166,6 +166,22 @@ CFGETMBR:
 		CALL CFREAD
 		CALL CFCHERR
 		RET
+        
+CFFLUSHDEFFERED:
+		LD A, (CFVAL)						; Check if we have valid data in buffer
+		OR A
+		RET Z                               ; If not, return
+        ; Check if we had deferred write
+        LD A, (DEFERREDWR)
+        OR A
+        RET Z                               ; No deferred data to write in buffer - just return
+        ; Otherwise write data in buffer to CF card
+        ; We use current setting of LBAs (no swap)
+        LD DE, BLKDAT
+        CALL CFWSECT
+        XOR A
+        LD (DEFERREDWR), A
+        RET
 
 ; This assumes that MBR is already in BLKDAT
 ; CALL CFGETMBR FIRST!
