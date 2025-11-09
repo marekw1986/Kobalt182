@@ -118,7 +118,8 @@ INIT:   LD   HL, 0000H
         ; Divisor ≈ 651 for 9600 baud @ 12.5 MHz clock
         LD A, 0CH           ; Select WR12 (BRG low byte)
         OUT0 (ESCC_A_CTRL), A
-        LD A, 27H          ; Low byte = 0x8B (139)
+        ;LD A, 27H          ; 9600bps at 12.5 MHz
+        LD A, 07H          ; 115200 bps at 33 MHz
         OUT0 (ESCC_A_CTRL), A
 
         LD A, 0DH           ; Select WR13 (BRG high byte)
