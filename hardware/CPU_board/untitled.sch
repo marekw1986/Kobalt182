@@ -23027,23 +23027,16 @@ SOurce: www.abracon.com</description>
 <label x="266.7" y="50.8" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="OSC_OUT" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="EXTAL"/>
-<wire x1="35.56" y1="76.2" x2="22.86" y2="76.2" width="0.1524" layer="91"/>
-<label x="22.86" y="76.2" size="1.4224" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
 <net name="OSC_IN" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="XTAL"/>
-<wire x1="35.56" y1="78.74" x2="22.86" y2="78.74" width="0.1524" layer="91"/>
-<label x="22.86" y="78.74" size="1.4224" layer="95" rot="R180" xref="yes"/>
-</segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="OUT"/>
 <wire x1="-20.32" y1="116.84" x2="-12.7" y2="116.84" width="0.1524" layer="91"/>
 <label x="-12.7" y="116.84" size="1.4224" layer="95" rot="MR180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="EXTAL"/>
+<wire x1="35.56" y1="76.2" x2="22.86" y2="76.2" width="0.1524" layer="91"/>
+<label x="22.86" y="76.2" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="N$25" class="0">
